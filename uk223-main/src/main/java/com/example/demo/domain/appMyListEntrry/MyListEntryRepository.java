@@ -6,5 +6,5 @@ import java.util.UUID;
 
 @Repository
 public interface MyListEntryRepository extends JpaRepository<MyListEntry, UUID> {
-    
+
 }

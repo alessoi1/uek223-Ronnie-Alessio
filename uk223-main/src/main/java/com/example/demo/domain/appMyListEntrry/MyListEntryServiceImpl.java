@@ -1,8 +1,13 @@
 package com.example.demo.domain.appMyListEntrry;
 
+import com.example.demo.domain.appUser.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import javax.management.InstanceAlreadyExistsException;
 import javax.transaction.Transactional;
 import java.util.*;
 
@@ -11,6 +16,8 @@ public class MyListEntryServiceImpl implements MyListEntryService {
 
     @Autowired
     private final MyListEntryRepository myListEntryRepository;
+    @Autowired
+    private final UserRepository userRepository;
 
     @Override
     public List<MyListEntry> findAll() {
@@ -24,7 +31,9 @@ public class MyListEntryServiceImpl implements MyListEntryService {
 
     @Override
     public MyListEntry createMyListEntry(MyListEntry myListEntry) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         myListEntry.setErstellungsdatum(new Date());
+        myListEntry.setUser(userRepository.findByUsername(auth.getName()));
         return myListEntryRepository.save(myListEntry);
     }
 
