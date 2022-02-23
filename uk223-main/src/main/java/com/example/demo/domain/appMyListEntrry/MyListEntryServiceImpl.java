@@ -30,4 +30,10 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     public void createMyListEntry(MyListEntry myListEntry) {
         myListEntryRepository.save(myListEntry);
     }
+
+    @Override
+    public void deleteMyListEntry(UUID id) {
+        myListEntryRepository.deleteById(id);
+    }
+
 }

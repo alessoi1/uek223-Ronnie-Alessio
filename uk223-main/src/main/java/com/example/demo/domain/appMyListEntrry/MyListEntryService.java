@@ -6,4 +6,5 @@ public interface MyListEntryService {
     List<MyListEntry> findAll();
     MyListEntry findById(UUID id);
     void createMyListEntry(MyListEntry myListEntry);
+    void deleteMyListEntry(UUID id);
 }
