@@ -24,6 +24,7 @@ public class MyListEntryServiceImpl implements MyListEntryService {
 
     @Override
     public MyListEntry createMyListEntry(MyListEntry myListEntry) {
+        myListEntry.setErstellungsdatum(new Date());
         return myListEntryRepository.save(myListEntry);
     }
 
