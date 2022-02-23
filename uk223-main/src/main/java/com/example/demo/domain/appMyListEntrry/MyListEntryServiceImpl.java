@@ -19,11 +19,7 @@ public class MyListEntryServiceImpl implements MyListEntryService {
 
     @Override
     public MyListEntry findById(UUID id) {
-        Optional<MyListEntry> entry = myListEntryRepository.findById(id);
-        if (entry.isEmpty()) {
-            return null;
-        }
-        return entry.get();
+        return myListEntryRepository.findById(id).orElse(new MyListEntry());
     }
 
     @Override
