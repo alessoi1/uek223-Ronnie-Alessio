@@ -26,7 +26,12 @@ public class MyListEntryController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MyListEntry> findById(@PathVariable UUID id) {
-        return new ResponseEntity<MyListEntry>(myListEntryService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(myListEntryService.findById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/getAll/{username}")
+    public ResponseEntity<Collection<MyListEntry>> findAllByUser(@PathVariable String username) {
+        return new ResponseEntity<>(myListEntryService.findAllByUser(username), HttpStatus.OK);
     }
 
     @PostMapping("/create")
