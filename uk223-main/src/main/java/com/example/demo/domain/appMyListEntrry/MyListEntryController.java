@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.InstanceAlreadyExistsException;
 import java.util.Collection;
+import java.util.Date;
 import java.util.UUID;
 
 @RestController
@@ -29,7 +31,8 @@ public class MyListEntryController {
 
     @PostMapping("/create")
     public ResponseEntity<MyListEntry> create(@RequestBody MyListEntry myListEntry) {
-        return new ResponseEntity<MyListEntry>(myListEntryService.createMyListEntry(myListEntry), HttpStatus.OK);
+        MyListEntry createdEntry = myListEntryService.createMyListEntry(myListEntry);
+        return new ResponseEntity<>(createdEntry, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{id}")
