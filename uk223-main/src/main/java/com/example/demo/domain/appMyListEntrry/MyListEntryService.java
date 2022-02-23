@@ -5,6 +5,6 @@ import java.util.UUID;
 public interface MyListEntryService {
     List<MyListEntry> findAll();
     MyListEntry findById(UUID id);
-    void createMyListEntry(MyListEntry myListEntry);
+    MyListEntry createMyListEntry(MyListEntry myListEntry);
     void deleteMyListEntry(UUID id);
 }

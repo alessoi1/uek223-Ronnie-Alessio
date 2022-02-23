@@ -27,8 +27,8 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     }
 
     @Override
-    public void createMyListEntry(MyListEntry myListEntry) {
-        myListEntryRepository.save(myListEntry);
+    public MyListEntry createMyListEntry(MyListEntry myListEntry) {
+        return myListEntryRepository.save(myListEntry);
     }
 
     @Override
