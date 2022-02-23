@@ -17,4 +17,9 @@ public class MyListEntryServiceImpl implements MyListEntryService {
         return myListEntryRepository.findAll();
     }
 
+    @Override
+    public MyListEntry findById(UUID id) {
+        return myListEntryRepository.findById(id);
+    }
+
 }
