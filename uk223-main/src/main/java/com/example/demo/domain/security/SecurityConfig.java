@@ -35,6 +35,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
         http.httpBasic().and()
                 .authorizeRequests()
+                .antMatchers("/swagger-ui/**").permitAll()
                 .antMatchers("/**").hasRole("DEFAULT")
                 .and()
                 // some more method calls

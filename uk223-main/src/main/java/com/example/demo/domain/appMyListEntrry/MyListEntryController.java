@@ -28,12 +28,17 @@ public class MyListEntryController {
     }
 
     @PostMapping("/create")
-    public MyListEntry create(@RequestBody MyListEntry myListEntry) {
-        return myListEntryService.createMyListEntry(myListEntry);
+    public ResponseEntity<MyListEntry> create(@RequestBody MyListEntry myListEntry) {
+        return new ResponseEntity<MyListEntry>(myListEntryService.createMyListEntry(myListEntry), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
     public void deleteEmployee(@PathVariable UUID id) {
         myListEntryService.deleteMyListEntry(id);
     }
+
+  /*  @PutMapping("/update{myListEntry}")
+    public MyListEntry updateMyListEntry(@PathVariable MyListEntry myListEntry) {
+        return new ResponseEntity<MyListEntry>(myListEntryService, HttpStatus.OK);
+    }*/
 }
