@@ -4,17 +4,13 @@ import com.example.demo.domain.appUser.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import javax.management.InstanceAlreadyExistsException;
 import javax.transaction.Transactional;
 import java.util.*;
 
-@Service @RequiredArgsConstructor @Transactional
+@Service @RequiredArgsConstructor @Transactional @Log4j2
 public class MyListEntryServiceImpl implements MyListEntryService {
 
     @Autowired
@@ -42,14 +38,19 @@ public class MyListEntryServiceImpl implements MyListEntryService {
 
     @Override
     public MyListEntry createMyListEntry(MyListEntry myListEntry) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         myListEntry.setErstellungsdatum(new Date());
-        myListEntry.setUser(userRepository.findByUsername(auth.getName()));
-        return myListEntryRepository.save(myListEntry);
+        myListEntry.setUser(userRepository.findByUsername(username));
+
+        MyListEntry createdEntry = myListEntryRepository.save(myListEntry);
+        log.info("Create MyListEntry with ID " + createdEntry.getId());
+
+        return createdEntry;
     }
 
     @Override
     public void deleteMyListEntry(UUID id) {
+        log.info("Delete MyListEntry with ID " + id);
         myListEntryRepository.deleteById(id);
     }
 
@@ -57,8 +58,10 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     public MyListEntry putMyListEntry(MyListEntry myListEntry, UUID id) {
         myListEntry.setId(id);
         if (!myListEntryRepository.findById(id).isEmpty()){
+            log.info("Overwrite MyListEntry with ID " + id);
             return myListEntryRepository.save(myListEntry);
         }
+        log.warn("Failed to overwrite: MyListEntry with ID " + id + " doesn't exist");
          return null;
     }
 
