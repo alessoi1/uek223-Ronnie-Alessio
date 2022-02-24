@@ -1,8 +1,10 @@
 package com.example.demo.domain.appMyListEntrry;
 
+import com.example.demo.domain.appUser.UserDTO;
 import com.example.demo.domain.appUser.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,14 +15,19 @@ import java.util.*;
 @Service @RequiredArgsConstructor @Transactional @Log4j2
 public class MyListEntryServiceImpl implements MyListEntryService {
 
-    @Autowired
     private final MyListEntryRepository myListEntryRepository;
-    @Autowired
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
     @Override
-    public List<MyListEntry> findAll() {
-        return myListEntryRepository.findAll();
+    public List<MyListEntryDTO> findAll() {
+        List<MyListEntryDTO> myListEntryDTOList = new ArrayList<>();
+        List<MyListEntry> myListEntryList = myListEntryRepository.findAll();
+        for (int i = 0; i < myListEntryList.size(); i++) {
+            myListEntryDTOList.add(modelMapper.map(myListEntryList.get(i), MyListEntryDTO.class));
+            myListEntryDTOList.get(i).setUserDTO(modelMapper.map(myListEntryList.get(i).getUser(), UserDTO.class));
+        }
+        return myListEntryDTOList;
     }
 
     @Override
