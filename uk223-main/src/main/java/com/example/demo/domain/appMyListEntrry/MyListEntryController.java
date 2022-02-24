@@ -1,19 +1,12 @@
 package com.example.demo.domain.appMyListEntrry;
 
-import com.example.demo.domain.appUser.User;
-import com.example.demo.domain.appUser.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.management.InstanceAlreadyExistsException;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.util.Collection;
-import java.util.Date;
 import java.util.UUID;
 
 @RestController
