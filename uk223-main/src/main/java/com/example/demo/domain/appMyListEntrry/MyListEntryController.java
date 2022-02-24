@@ -31,6 +31,7 @@ public class MyListEntryController {
     @GetMapping("/{id}")
     public ResponseEntity<MyListEntry> findById(@Valid @PathVariable UUID id) {
         return new ResponseEntity<MyListEntry>(myListEntryService.findById(id), HttpStatus.OK);
+    }
 
     @GetMapping("/getAll/{username}")
     public ResponseEntity<Collection<MyListEntry>> findAllByUser(@PathVariable String username) {
