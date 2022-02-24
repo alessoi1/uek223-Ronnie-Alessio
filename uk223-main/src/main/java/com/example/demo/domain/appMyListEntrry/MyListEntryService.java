@@ -1,4 +1,5 @@
 package com.example.demo.domain.appMyListEntrry;
+import com.example.demo.domain.appUser.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -13,4 +14,5 @@ public interface MyListEntryService {
     void deleteMyListEntry(UUID id);
     MyListEntry putMyListEntry(MyListEntry myListEntry, UUID id);
     List<MyListEntry> findAllByUser(String username);
+    MyListEntry saveMyListEntry(MyListEntry myListEntry);
 }
