@@ -55,4 +55,9 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     public List<MyListEntry> findAllByUser(String username) {
         return myListEntryRepository.findAllByUser(userRepository.findByUsername(username).getId());
     }
+
+    @Override
+    public MyListEntry saveMyListEntry(MyListEntry myListEntry) {
+            return myListEntryRepository.save(myListEntry);
+    }
 }
