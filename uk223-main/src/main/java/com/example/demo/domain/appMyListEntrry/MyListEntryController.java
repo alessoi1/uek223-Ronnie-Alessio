@@ -17,7 +17,7 @@ public class MyListEntryController {
     private final MyListEntryService myListEntryService;
 
     @Operation(summary = "Get all MyListEntry item")
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<Collection<MyListEntryDTO>> findAll() {
         return new ResponseEntity<>(myListEntryService.findAll(), HttpStatus.OK);
     }
@@ -34,7 +34,7 @@ public class MyListEntryController {
     }
 
     @Operation(summary = "Create MyListEntry item")
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<MyListEntry> create(@Valid @RequestBody MyListEntry myListEntry) {
         MyListEntry createdEntry = myListEntryService.createMyListEntry(myListEntry);
         return new ResponseEntity<>(createdEntry, HttpStatus.CREATED);
