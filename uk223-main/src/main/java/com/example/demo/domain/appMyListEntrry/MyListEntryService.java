@@ -8,4 +8,5 @@ public interface MyListEntryService {
     MyListEntry findById(UUID id);
     MyListEntry createMyListEntry(MyListEntry myListEntry);
     void deleteMyListEntry(UUID id);
+    MyListEntry putMyListEntry(MyListEntry myListEntry, UUID id);
 }

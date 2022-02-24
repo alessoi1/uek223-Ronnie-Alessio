@@ -42,4 +42,12 @@ public class MyListEntryServiceImpl implements MyListEntryService {
         myListEntryRepository.deleteById(id);
     }
 
+    @Override
+    public MyListEntry putMyListEntry(MyListEntry myListEntry, UUID id) {
+        myListEntry.setId(id);
+        if (!myListEntryRepository.findById(id).isEmpty()){
+            return myListEntryRepository.save(myListEntry);
+        }
+         return null;
+    }
 }
