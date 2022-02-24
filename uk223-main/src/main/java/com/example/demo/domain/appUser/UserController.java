@@ -26,5 +26,4 @@ private final UserService userService;
     public ResponseEntity<Collection<User>> findAll() {
         return new ResponseEntity<Collection<User>>(userService.findAll(), HttpStatus.OK);
     }
-
 }

@@ -2,8 +2,10 @@ package com.example.demo.domain.appMyListEntrry;
 
 import com.example.demo.domain.appUser.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -19,15 +21,23 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     private final MyListEntryRepository myListEntryRepository;
     @Autowired
     private final UserRepository userRepository;
+    @Autowired
+    private final ModelMapper modelMapper;
 
     @Override
-    public List<MyListEntry> findAll() {
-        return myListEntryRepository.findAll();
+    public List<MyListEntryDTO> findAll() {
+        List<MyListEntryDTO> myListEntryDTOList = new ArrayList<>();
+        List<MyListEntry> myListEntryList = myListEntryRepository.findAll();
+        for (MyListEntry myListEntry : myListEntryList) {
+            myListEntryDTOList.add(modelMapper.map(myListEntry, MyListEntryDTO.class));
+        }
+
+        return myListEntryDTOList;
     }
 
     @Override
     public MyListEntry findById(UUID id) {
-        return myListEntryRepository.findById(id).orElse(new MyListEntry());
+        return  myListEntryRepository.findById(id).orElse(new MyListEntry());
     }
 
     @Override
@@ -58,6 +68,6 @@ public class MyListEntryServiceImpl implements MyListEntryService {
 
     @Override
     public MyListEntry saveMyListEntry(MyListEntry myListEntry) {
-            return myListEntryRepository.save(myListEntry);
+        return myListEntryRepository.save(myListEntry);
     }
 }

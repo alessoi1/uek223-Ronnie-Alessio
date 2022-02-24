@@ -24,8 +24,8 @@ public class MyListEntryController {
     private final MyListEntryService myListEntryService;
 
     @Operation(summary = "Get all MyListEntry item")
-    @GetMapping("/getAll")
-    public ResponseEntity<Collection<MyListEntry>> findAll() {
+    @GetMapping("/")
+    public ResponseEntity<Collection<MyListEntryDTO>> findAll() {
         return new ResponseEntity<>(myListEntryService.findAll(), HttpStatus.OK);
     }
 
@@ -35,20 +35,20 @@ public class MyListEntryController {
         return new ResponseEntity<>(myListEntryService.findById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/getAll/{username}")
-    public ResponseEntity<Collection<MyListEntry>> findAllByUser(@PathVariable String username) {
+    @GetMapping("/{username}")
+    public ResponseEntity<Collection<MyListEntry>> findAllByUser(@Valid @PathVariable String username) {
         return new ResponseEntity<>(myListEntryService.findAllByUser(username), HttpStatus.OK);
     }
 
     @Operation(summary = "Create MyListEntry item")
-    @PostMapping("/create")
+    @PostMapping("/")
     public ResponseEntity<MyListEntry> create(@Valid @RequestBody MyListEntry myListEntry) {
         MyListEntry createdEntry = myListEntryService.createMyListEntry(myListEntry);
         return new ResponseEntity<>(createdEntry, HttpStatus.CREATED);
     }
 
     @Operation(summary = "Delete MyListEntry item")
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@Valid @PathVariable UUID id) {
         try {
             myListEntryService.deleteMyListEntry(id);
@@ -58,7 +58,7 @@ public class MyListEntryController {
         }
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<MyListEntry> updateMyListEntry(@PathVariable UUID id, @RequestBody MyListEntry myListEntry) {
         return new ResponseEntity<>(myListEntryService.putMyListEntry(myListEntry, id), HttpStatus.OK);
     }

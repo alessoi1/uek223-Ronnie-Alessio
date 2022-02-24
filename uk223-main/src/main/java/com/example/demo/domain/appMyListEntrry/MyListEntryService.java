@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface MyListEntryService {
-    List<MyListEntry> findAll();
+    List<MyListEntryDTO> findAll();
     MyListEntry findById(UUID id);
     MyListEntry createMyListEntry(MyListEntry myListEntry);
     void deleteMyListEntry(UUID id);
