@@ -1,9 +1,5 @@
 package com.example.demo.domain.appMyListEntrry;
-import com.example.demo.domain.appUser.User;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
-import javax.management.InstanceAlreadyExistsException;
 import java.util.List;
 import java.util.UUID;
 

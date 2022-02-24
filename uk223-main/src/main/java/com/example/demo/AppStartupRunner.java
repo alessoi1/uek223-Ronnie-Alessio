@@ -20,7 +20,6 @@ import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
-@Log4j2
 //ApplicationListener used to run commands after startup
 class AppStartupRunner implements ApplicationRunner {
     @Autowired
