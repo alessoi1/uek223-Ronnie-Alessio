@@ -3,12 +3,14 @@ package com.example.demo.domain.appMyListEntrry;
 import com.example.demo.domain.appUser.User;
 import com.example.demo.domain.appUser.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.InstanceAlreadyExistsException;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.util.Collection;
 import java.util.Date;
@@ -24,13 +26,13 @@ public class MyListEntryController {
     @Operation(summary = "Get all MyListEntry item")
     @GetMapping("/getAll")
     public ResponseEntity<Collection<MyListEntry>> findAll() {
-        return new ResponseEntity<Collection<MyListEntry>>(myListEntryService.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(myListEntryService.findAll(), HttpStatus.OK);
     }
 
     @Operation(summary = "Get a specific MyListEntry item")
     @GetMapping("/{id}")
     public ResponseEntity<MyListEntry> findById(@Valid @PathVariable UUID id) {
-        return new ResponseEntity<MyListEntry>(myListEntryService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(myListEntryService.findById(id), HttpStatus.OK);
     }
 
     @GetMapping("/getAll/{username}")
@@ -47,12 +49,17 @@ public class MyListEntryController {
 
     @Operation(summary = "Delete MyListEntry item")
     @DeleteMapping("/delete/{id}")
-    public void delete(@Valid @PathVariable UUID id) {
-        myListEntryService.deleteMyListEntry(id);
+    public ResponseEntity<Object> delete(@Valid @PathVariable UUID id) {
+        try {
+            myListEntryService.deleteMyListEntry(id);
+            return new ResponseEntity(null, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<MyListEntry> updateMyListEntry(@PathVariable UUID id, @RequestBody MyListEntry myListEntry) {
-        return new ResponseEntity<MyListEntry>(myListEntryService.putMyListEntry(myListEntry, id), HttpStatus.OK);
+        return new ResponseEntity<>(myListEntryService.putMyListEntry(myListEntry, id), HttpStatus.OK);
     }
 }
