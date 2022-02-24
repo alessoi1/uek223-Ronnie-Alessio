@@ -1,19 +1,15 @@
 package com.example.demo.domain.appMyListEntrry;
 
 import com.example.demo.domain.appUser.User;
-import com.example.demo.domain.role.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity(name="mylistentry")
