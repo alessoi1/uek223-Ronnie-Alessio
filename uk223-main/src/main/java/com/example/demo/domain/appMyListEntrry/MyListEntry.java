@@ -37,7 +37,7 @@ public class MyListEntry {
     @NotNull(message = "Wichtigkeit cannot be null")
     private int wichtigkeit;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(
             name = "mylistentry_user",
             joinColumns = @JoinColumn(
