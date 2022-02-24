@@ -52,7 +52,7 @@ public class MyListEntryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MyListEntry> updateMyListEntry(@PathVariable UUID id, @RequestBody MyListEntry myListEntry) {
+    public ResponseEntity<MyListEntry> updateMyListEntry(@PathVariable UUID id, @Valid @RequestBody MyListEntry myListEntry) {
         return new ResponseEntity<>(myListEntryService.putMyListEntry(myListEntry, id), HttpStatus.OK);
     }
 }
