@@ -31,7 +31,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-         http.csrf().disable();
+
+        http.csrf().disable();
 
         http.httpBasic().and()
                 .authorizeRequests()
