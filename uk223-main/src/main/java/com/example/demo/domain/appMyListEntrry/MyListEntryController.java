@@ -49,7 +49,7 @@ public class MyListEntryController {
     }
 
     @Operation(summary = "Get all MyListEntries filtered by user")
-    @GetMapping("/{username}")
+    @GetMapping("/username/{username}")
     public ResponseEntity<Collection<MyListEntry>> findAllByUser(@PathVariable String username) {
         return new ResponseEntity<>(myListEntryService.findAllByUser(username), HttpStatus.OK);
     }

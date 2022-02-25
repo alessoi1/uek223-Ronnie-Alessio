@@ -1,4 +1,4 @@
-insert into users (id, email, password, username) values ('e043d2c8-9a88-47c4-ab83-d11414518048', 'pneat0@soundcloud.com', 'jUQcnZt3r', 'gberanek0');
+/*insert into users (id, email, password, username) values ('e043d2c8-9a88-47c4-ab83-d11414518048', 'pneat0@soundcloud.com', 'jUQcnZt3r', 'gberanek0');
 insert into users (id, email, password, username) values ('5dbfa8ee-48b1-4594-93f8-5a7bfc397b1d', 'fbrunicke1@techcrunch.com', 'uQAFnkH', 'mpourveer1');
 insert into users (id, email, password, username) values ('abcaeec3-3448-409f-bc61-4fc988fae18c', 'jsebborn2@nytimes.com', 'zAvaVFpzi', 'zrenshall2');
 insert into users (id, email, password, username) values ('e6fa0a48-4ca7-4e6e-b40b-76e11deb593f', 'gdurand3@elpais.com', 'CnPM7OF5Bm1p', 'ftrevaskis3');
@@ -59,5 +59,4 @@ insert into role_authorities (role_id, authority_id) values ('c868a1dc-e89e-4ff1
 insert into role_authorities (role_id, authority_id) values ('c868a1dc-e89e-4ff1-a7a0-78f3daea0973', '0aaec7e7-8b8e-45b2-9b0b-7fd077d212c3');
 
 
-
-
+*/
