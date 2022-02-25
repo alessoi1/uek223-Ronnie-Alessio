@@ -5,7 +5,9 @@ import com.example.demo.domain.appUser.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
@@ -19,6 +21,17 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     private final ModelMapper modelMapper;
 
     @Override
+    public List<MyListEntry> findAll() {
+        return myListEntryRepository.findAll();
+    }
+
+    @Override
+    public List<MyListEntry> findAllPageable(int page) {
+        Pageable pageable = PageRequest.of(page, 5, Sort.by("erstellungsdatum"));
+        return myListEntryRepository.findAll(pageable).getContent();
+    }
+
+    @Override
     public List<MyListEntryDTO> findAllDTO() {
         List<MyListEntryDTO> myListEntryDTOList = new ArrayList<>();
         List<MyListEntry> myListEntryList = myListEntryRepository.findAll();
@@ -27,11 +40,6 @@ public class MyListEntryServiceImpl implements MyListEntryService {
             myListEntryDTOList.get(i).setUserDTO(modelMapper.map(myListEntryList.get(i).getUser(), UserDTO.class));
         }
         return myListEntryDTOList;
-    }
-
-    @Override
-    public List<MyListEntry> findAll() {
-        return myListEntryRepository.findAll();
     }
 
     @Override

@@ -4,8 +4,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface MyListEntryService {
-    List<MyListEntryDTO> findAllDTO();
     List<MyListEntry> findAll();
+    List<MyListEntry> findAllPageable(int page);
+    List<MyListEntryDTO> findAllDTO();
     MyListEntry findById(UUID id);
     MyListEntry createMyListEntry(MyListEntry myListEntry);
     void deleteMyListEntry(UUID id);
