@@ -36,45 +36,47 @@ class AppStartupRunner implements ApplicationRunner {
 //        e.g. to add a user or role to the DB (only for testing)
 
         //Authorities
-      /*  Authority read_auth = new Authority(null, "READ");
-        authorityRepository.save(read_auth);
-        Authority create_mylistentry_auth = new Authority(null, "CREATE_MYLISTENTRY");
-        authorityRepository.save(create_mylistentry_auth);
-        Authority read_Write_auth = new Authority(null, "READ_WRITE");
-        authorityRepository.save(read_Write_auth);
+        Authority READ_MYLISTENTRY_AUTH = new Authority(null, "CAN_READ_MYLISTENTRY");
+        authorityRepository.save(READ_MYLISTENTRY_AUTH);
+        Authority EDIT_MYLISTENTRY_AUTH = new Authority(null, "CAN_EDIT_MYLISTENTRY");
+        authorityRepository.save(EDIT_MYLISTENTRY_AUTH);
 
         //Roles
-        Role CAN_CREATE_MYLISTENTRY_ROLE = new Role(null, "CAN_CREATE_MYLISTENTRY", Arrays.asList(create_mylistentry_auth));
-        roleRepository.save(CAN_CREATE_MYLISTENTRY_ROLE);
-        Role ADMIN_ROLE = new Role(null, "ADMIN", Arrays.asList(read_Write_auth));
+        Role ADMIN_ROLE = new Role(null, "ADMIN", Arrays.asList(EDIT_MYLISTENTRY_AUTH));
         roleRepository.save(ADMIN_ROLE);
-        Role CAN_READ_MYLISTENTRY_ROLE = new Role(null, "CAN_READ_MYLISTENTRY", Arrays.asList(read_auth));
-        roleRepository.save(CAN_READ_MYLISTENTRY_ROLE);
+        Role USER_ROLE = new Role(null, "USER", Arrays.asList(READ_MYLISTENTRY_AUTH));
+        roleRepository.save(USER_ROLE);
+        Role GUEST_ROLE = new Role(null, "GUEST", Arrays.asList());
+        roleRepository.save(GUEST_ROLE);
 
         // Users
-        User james = new User(null, "james", "james.bond@mi6.com", "bond", Set.of(ADMIN_ROLE));
-        userService.saveUser(james);
-        User silvan = new User(null, "silvan", "silvan.egger@mi6.com", "egger", Set.of(CAN_READ_MYLISTENTRY_ROLE));
+        User admin = new User(null, "admin", "admin@admin.admin", "Admin123", Set.of(ADMIN_ROLE));
+        userService.saveUser(admin);
+        User silvan = new User(null, "silvan", "silvan.egger@mi6.com", "Passwort", Set.of(USER_ROLE));
         userService.saveUser(silvan);
-        User markus = new User(null, "markus", "markus.stein@mi6.com", "stein", Set.of(ADMIN_ROLE));
+        User markus = new User(null, "markus", "markus.stein@mi6.com", "Passwort", Set.of(USER_ROLE));
         userService.saveUser(markus);
-        User ruediger = new User(null, "ruediger", "ruediger.meier@mi6.com", "meier", Set.of(CAN_CREATE_MYLISTENTRY_ROLE));
+        User ruediger = new User(null, "ruediger", "ruediger.meier@mi6.com", "Passwort", Set.of(USER_ROLE));
         userService.saveUser(ruediger);
 
         //MyListEntry
-        MyListEntry myListEntry1 = new MyListEntry(null, "Titel1", "Text1", new Date(), 2, james);
+        MyListEntry myListEntry1 = new MyListEntry(null, "Admins Blog", "Ich bin ein Admin", new Date(), 2, admin);
         myListEntryService.saveMyListEntry(myListEntry1);
-        MyListEntry myListEntry2 = new MyListEntry(null, "Titel2", "Text2", new Date(), 8, silvan);
+        MyListEntry myListEntry2 = new MyListEntry(null, "Mein 1. Blog", "Hallo. Ich bin Silvan.", new Date(), 8, silvan);
         myListEntryService.saveMyListEntry(myListEntry2);
-        MyListEntry myListEntry3 = new MyListEntry(null, "Titel3", "Text3", new Date(), 3, markus);
+        MyListEntry myListEntry3 = new MyListEntry(null, "Mein zweiter Blog", "Ich bin immer noch Silvan", new Date(), 3, silvan);
         myListEntryService.saveMyListEntry(myListEntry3);
-        MyListEntry myListEntry4 = new MyListEntry(null, "Titel4", "Text4", new Date(), 5, ruediger);
+        MyListEntry myListEntry4 = new MyListEntry(null, "Hello World!", "blablablabla blabla blabla", new Date(), 3, silvan);
         myListEntryService.saveMyListEntry(myListEntry4);
+        MyListEntry myListEntry5 = new MyListEntry(null, "Mein Titel", "Mein Text", new Date(), 5, ruediger);
+        myListEntryService.saveMyListEntry(myListEntry5);
+        MyListEntry myListEntry6 = new MyListEntry(null, "Markus Blog", "Markus Text", new Date(), 5, markus);
+        myListEntryService.saveMyListEntry(myListEntry6);
 
-        userService.addRoleToUser(james.getUsername(), ADMIN_ROLE.getName());
-        userService.addRoleToUser(silvan.getUsername(), CAN_READ_MYLISTENTRY_ROLE.getName());
-        userService.addRoleToUser(markus.getUsername(), ADMIN_ROLE.getName());
-        userService.addRoleToUser(ruediger.getUsername(), CAN_CREATE_MYLISTENTRY_ROLE.getName()); */
+        userService.addRoleToUser(admin.getUsername(), ADMIN_ROLE.getName());
+        userService.addRoleToUser(silvan.getUsername(), USER_ROLE.getName());
+        userService.addRoleToUser(markus.getUsername(), USER_ROLE.getName());
+        userService.addRoleToUser(ruediger.getUsername(), USER_ROLE.getName());
     }
 }
 
