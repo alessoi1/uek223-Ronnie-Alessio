@@ -1,16 +1,21 @@
 package com.example.demo.domain.appMyListEntrry;
 
+import com.example.demo.domain.Utils.CopyNotNullProps;
+import com.example.demo.domain.appUser.User;
 import com.example.demo.domain.appUser.UserDTO;
 import com.example.demo.domain.appUser.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.lang.reflect.Type;
 import java.util.*;
 
 @Service @RequiredArgsConstructor @Transactional @Log4j2
@@ -48,7 +53,7 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     }
 
     @Override
-    public MyListEntry createMyListEntry(MyListEntry myListEntry) {
+    public MyListEntryDTO createMyListEntry(MyListEntry myListEntry) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         myListEntry.setErstellungsdatum(new Date());
         myListEntry.setUser(userRepository.findByUsername(username));
@@ -56,7 +61,9 @@ public class MyListEntryServiceImpl implements MyListEntryService {
         MyListEntry createdEntry = myListEntryRepository.save(myListEntry);
         log.info("Create MyListEntry with ID " + createdEntry.getId());
 
-        return createdEntry;
+        MyListEntryDTO createdMyListEntryDTO = modelMapper.map(createdEntry, MyListEntryDTO.class);
+        createdMyListEntryDTO.setUserDTO(modelMapper.map(createdEntry.getUser(), UserDTO.class));
+        return createdMyListEntryDTO;
     }
 
     @Override
@@ -66,11 +73,20 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     }
 
     @Override
-    public MyListEntry putMyListEntry(MyListEntry myListEntry, UUID id) {
-        myListEntry.setId(id);
-        if (!myListEntryRepository.findById(id).isEmpty()){
+    @SneakyThrows
+    public MyListEntryDTO putMyListEntry(UpdateMyListEntryDTO updateMyListEntryDTO, UUID id) {
+        if (myListEntryRepository.existsById(id)){
             log.info("Overwrite MyListEntry with ID " + id);
-            return myListEntryRepository.save(myListEntry);
+            MyListEntry myListEntryFromDB = myListEntryRepository.findById(id).orElse(null);
+            CopyNotNullProps copyNotNullProps = new CopyNotNullProps();
+
+            assert myListEntryFromDB != null;
+            copyNotNullProps.copyProperties(myListEntryFromDB, updateMyListEntryDTO);
+            myListEntryRepository.saveAndFlush(myListEntryFromDB);
+
+            MyListEntryDTO myListEntry = modelMapper.map(myListEntryFromDB, MyListEntryDTO.class);
+            myListEntry.setUserDTO(modelMapper.map(myListEntryFromDB.getUser(), UserDTO.class));
+            return myListEntry;
         }
         log.warn("Failed to overwrite: MyListEntry with ID " + id + " doesn't exist");
          return null;
