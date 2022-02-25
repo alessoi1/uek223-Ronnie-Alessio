@@ -1,6 +1,7 @@
 package com.example.demo.domain.appMyListEntrry;
 
 import com.example.demo.domain.appUser.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,7 +38,7 @@ public class MyListEntry {
     @NotNull(message = "Wichtigkeit cannot be null")
     private int wichtigkeit;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinTable(
             name = "mylistentry_user",
             joinColumns = @JoinColumn(
