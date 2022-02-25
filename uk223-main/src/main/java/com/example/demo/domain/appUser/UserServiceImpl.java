@@ -70,8 +70,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new InstanceAlreadyExistsException("User already exists");
         }
         else {
-            String encodedPW = passwordEncoder.encode(user.getPassword());
-            user.setPassword(encodedPW);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             return userRepository.save(user);
         }
     }

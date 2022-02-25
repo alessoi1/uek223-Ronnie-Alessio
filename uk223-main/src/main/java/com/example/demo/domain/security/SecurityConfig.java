@@ -1,6 +1,5 @@
 package com.example.demo.domain.security;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,38 +10,32 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
- @EnableWebSecurity @RequiredArgsConstructor @EnableGlobalMethodSecurity(prePostEnabled = true)
 
- public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableWebSecurity @RequiredArgsConstructor @EnableGlobalMethodSecurity(prePostEnabled = true)
 
-     private final UserDetailsService userDetailsService;
-     private final PasswordEncoder passwordEncoder;
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-     @Bean
-     public PasswordEncoder encoder() {
-         return new BCryptPasswordEncoder(4);
-     }
+    private final UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
-     @Bean
-     public DaoAuthenticationProvider authProvider() {
-         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-         authProvider.setUserDetailsService(userDetailsService);
-         authProvider.setPasswordEncoder(encoder());
-         return authProvider;
-     }
+    public DaoAuthenticationProvider authProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder);
+        return authProvider;
+    }
 
-     @Override
-     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-         auth.userDetailsService(userDetailsService).passwordEncoder(encoder()).and()
-                 .authenticationProvider(authProvider());
-     }
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder).and()
+                .authenticationProvider(authProvider());
+    }
 
-     @Autowired
-     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-     }
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -54,4 +47,4 @@ import org.springframework.security.crypto.password.PasswordEncoder;
                 // some more method calls
                 .formLogin();
     }
- }
+}
