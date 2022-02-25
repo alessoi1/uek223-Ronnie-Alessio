@@ -48,11 +48,15 @@ insert into users_roles (user_id, role_id) values ('3d776dd4-3387-45d4-a0b9-d906
 
 insert into authority (id, name) values ('9b336ab1-31bd-42fd-ab11-a23e6a667bc3', 'CAN_CREATE_MYLISTENTRY');
 insert into authority (id, name) values ('1a6cb1d5-380c-47eb-bfe0-80a514ebe3bc', 'CAN_READ_MYLISTENTRY');
+insert into authority (id, name) values ('cedad7c0-df6f-4ab9-99a8-d71ceefab358', 'CAN_DELETE_MYLISTENTRY');
+insert into authority (id, name) values ('0aaec7e7-8b8e-45b2-9b0b-7fd077d212c3', 'CAN_UPDATE_MYLISTENTRY');
 insert into authority (id, name) values ('01b91a5b-0979-4d51-bc31-8f98278ea710', 'ADMIN');
 
 insert into role_authorities (role_id, authority_id) values ('181f2537-db78-4aa6-a2a4-aeffd9e27ef6', '01b91a5b-0979-4d51-bc31-8f98278ea710');
 insert into role_authorities (role_id, authority_id) values ('c868a1dc-e89e-4ff1-a7a0-78f3daea0973', '9b336ab1-31bd-42fd-ab11-a23e6a667bc3');
 insert into role_authorities (role_id, authority_id) values ('c868a1dc-e89e-4ff1-a7a0-78f3daea0973', '1a6cb1d5-380c-47eb-bfe0-80a514ebe3bc');
+insert into role_authorities (role_id, authority_id) values ('c868a1dc-e89e-4ff1-a7a0-78f3daea0973', 'cedad7c0-df6f-4ab9-99a8-d71ceefab358');
+insert into role_authorities (role_id, authority_id) values ('c868a1dc-e89e-4ff1-a7a0-78f3daea0973', '0aaec7e7-8b8e-45b2-9b0b-7fd077d212c3');
 
 
 */

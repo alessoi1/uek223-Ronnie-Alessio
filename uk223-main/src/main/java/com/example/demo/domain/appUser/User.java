@@ -2,8 +2,12 @@ package com.example.demo.domain.appUser;
 
 import com.example.demo.domain.role.Role;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 import java.util.UUID;
 
@@ -15,8 +19,16 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
+    @NotNull
+    @Size(min = 1, max = 10, message = "username has to be between 1 and 10")
     private String username;
+
+    @NotNull
+    @Email
     private String email;
+
+    @NotNull
     private String password;
 
 

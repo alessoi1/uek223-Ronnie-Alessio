@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -24,9 +25,13 @@ public class MyListEntry {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @Type(type = "text")
+    @Size(min = 1, max = 50, message = "Text has to be between 1 and 50")
     @NotNull(message = "Titel cannot be null")
     private String titel;
-    
+
+    @Type(type = "text")
+    @Size(min = 1, max = 50, message = "Text has to be between 1 and 50")
     @NotNull(message = "Text cannot be null")
     private String text;
 
