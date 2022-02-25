@@ -36,7 +36,7 @@ class AppStartupRunner implements ApplicationRunner {
 //        e.g. to add a user or role to the DB (only for testing)
 
         //Authorities
-        Authority read_auth = new Authority(null, "READ");
+      /*  Authority read_auth = new Authority(null, "READ");
         authorityRepository.save(read_auth);
         Authority create_mylistentry_auth = new Authority(null, "CREATE_MYLISTENTRY");
         authorityRepository.save(create_mylistentry_auth);
@@ -74,7 +74,7 @@ class AppStartupRunner implements ApplicationRunner {
         userService.addRoleToUser(james.getUsername(), ADMIN_ROLE.getName());
         userService.addRoleToUser(silvan.getUsername(), CAN_READ_MYLISTENTRY_ROLE.getName());
         userService.addRoleToUser(markus.getUsername(), ADMIN_ROLE.getName());
-        userService.addRoleToUser(ruediger.getUsername(), CAN_CREATE_MYLISTENTRY_ROLE.getName());
+        userService.addRoleToUser(ruediger.getUsername(), CAN_CREATE_MYLISTENTRY_ROLE.getName()); */
     }
 }
 

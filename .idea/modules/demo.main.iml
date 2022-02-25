@@ -4,6 +4,10 @@
     <facet type="web" name="Web">
       <configuration>
         <webroots />
+        <sourceRoots>
+          <root url="file://$MODULE_DIR$/../../uk223-main/src/main/resources" />
+          <root url="file://$MODULE_DIR$/../../uk223-main/src/main/java" />
+        </sourceRoots>
       </configuration>
     </facet>
     <facet type="jpa" name="JPA">
