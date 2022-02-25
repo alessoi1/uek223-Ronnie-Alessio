@@ -19,7 +19,7 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     private final ModelMapper modelMapper;
 
     @Override
-    public List<MyListEntryDTO> findAll() {
+    public List<MyListEntryDTO> findAllDTO() {
         List<MyListEntryDTO> myListEntryDTOList = new ArrayList<>();
         List<MyListEntry> myListEntryList = myListEntryRepository.findAll();
         for (int i = 0; i < myListEntryList.size(); i++) {
@@ -27,6 +27,11 @@ public class MyListEntryServiceImpl implements MyListEntryService {
             myListEntryDTOList.get(i).setUserDTO(modelMapper.map(myListEntryList.get(i).getUser(), UserDTO.class));
         }
         return myListEntryDTOList;
+    }
+
+    @Override
+    public List<MyListEntry> findAll() {
+        return myListEntryRepository.findAll();
     }
 
     @Override

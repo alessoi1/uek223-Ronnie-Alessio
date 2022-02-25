@@ -18,8 +18,14 @@ public class MyListEntryController {
 
     @Operation(summary = "Get all MyListEntry item")
     @GetMapping()
-    public ResponseEntity<Collection<MyListEntryDTO>> findAll() {
+    public ResponseEntity<Collection<MyListEntry>> findAll() {
         return new ResponseEntity<>(myListEntryService.findAll(), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get all MyListEntryDTO item")
+    @GetMapping("/DTO")
+    public ResponseEntity<Collection<MyListEntryDTO>> findAllDTO() {
+        return new ResponseEntity<>(myListEntryService.findAllDTO(), HttpStatus.OK);
     }
 
     @Operation(summary = "Get a specific MyListEntry item")
