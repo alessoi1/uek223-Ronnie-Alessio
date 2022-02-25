@@ -1,23 +1,20 @@
 package com.example.demo.domain.appUser;
 
 import com.example.demo.domain.role.Role;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import java.util.Set;
-import java.util.UUID;
 
-@Entity(name="users")
-//from lombok
-@Getter@Setter
-@NoArgsConstructor @AllArgsConstructor
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+@Getter @Setter
+public class UserDTO {
+
     private String username;
     private String email;
-    private String password;
 
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -28,7 +25,5 @@ public class User {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
-
-
 
 }

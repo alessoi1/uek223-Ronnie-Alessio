@@ -31,9 +31,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic().and()
+        http.csrf().disable().httpBasic().and()
                 .authorizeRequests()
-                .antMatchers("/**").hasRole("DEFAULT")
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/**").hasRole("ADMIN")
                 .and()
                 // some more method calls
                 .formLogin();
