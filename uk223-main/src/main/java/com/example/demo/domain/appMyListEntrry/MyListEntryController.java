@@ -23,9 +23,9 @@ public class MyListEntryController {
     }
 
     @Operation(summary = "Get all MyListEntries pageable")
-    @GetMapping("/page/{page}-{size}")
-    public ResponseEntity<Collection<MyListEntry>> findAllPageable(@PathVariable int page, @PathVariable int size) {
-        return new ResponseEntity<>(myListEntryService.findAllPageable(page, size), HttpStatus.OK);
+    @GetMapping("/page/{page}")
+    public ResponseEntity<Collection<MyListEntry>> findAllPageable(@PathVariable int page) {
+        return new ResponseEntity<>(myListEntryService.findAllPageable(page), HttpStatus.OK);
     }
 
     @Operation(summary = "Get all MyListEntryDTOs")

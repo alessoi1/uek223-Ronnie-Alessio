@@ -26,8 +26,8 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     }
 
     @Override
-    public List<MyListEntry> findAllPageable(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("erstellungsdatum"));
+    public List<MyListEntry> findAllPageable(int page) {
+        Pageable pageable = PageRequest.of(page, 5, Sort.by("erstellungsdatum"));
         return myListEntryRepository.findAll(pageable).getContent();
     }
 
