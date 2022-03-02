@@ -1,14 +1,12 @@
 package com.example.demo.domain.appMyListEntrry;
 
 import com.example.demo.domain.Utils.CopyNotNullProps;
-import com.example.demo.domain.appUser.User;
 import com.example.demo.domain.appUser.UserDTO;
 import com.example.demo.domain.appUser.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -16,9 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
+import javax.management.InstanceNotFoundException;
 import javax.transaction.Transactional;
-import java.lang.reflect.Type;
 import java.util.*;
 
 @Service
@@ -43,8 +40,8 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     }
 
     @Override
-    public MyListEntryDTO findDTOById(UUID id) {
-        MyListEntry myListEntry = myListEntryRepository.findById(id).orElse(new MyListEntry());
+    public MyListEntryDTO findDTOById(UUID id) throws InstanceNotFoundException {
+        MyListEntry myListEntry = findById(id).get();
         MyListEntryDTO myListEntryDTO = modelMapper.map(myListEntry, MyListEntryDTO.class);
         myListEntryDTO.setUserDTO(modelMapper.map(myListEntry.getUser(), UserDTO.class));
         return myListEntryDTO;
@@ -62,8 +59,13 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     }
 
     @Override
-    public MyListEntry findById(UUID id) {
-        return myListEntryRepository.findById(id).orElse(null);
+    public Optional<MyListEntry> findById(UUID id) throws InstanceNotFoundException {
+        if (myListEntryRepository.existsById(id)) {
+            return myListEntryRepository.findById(id);
+        }
+        else {
+            throw new InstanceNotFoundException("MyListEntry not found");
+        }
     }
 
     @Override
