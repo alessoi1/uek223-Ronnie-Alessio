@@ -79,12 +79,12 @@ public class MyListEntryController {
     @Operation(summary = "Delete MyListEntry")
     @DeleteMapping("/{id}")
     @PreAuthorize("(hasAnyRole('USER', 'ADMIN'))")
-    public ResponseEntity<Object> delete(@Valid @PathVariable UUID id) {
+    public ResponseEntity<UUID> delete(@PathVariable UUID id) {
         try {
             myListEntryService.deleteMyListEntry(id);
-            return new ResponseEntity<>(null, HttpStatus.OK);
+            return new ResponseEntity<>(id, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(id, HttpStatus.BAD_REQUEST);
         }
     }
 

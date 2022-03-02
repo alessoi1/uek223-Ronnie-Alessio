@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.management.InstanceAlreadyExistsException;
 import javax.management.InstanceNotFoundException;
+import javax.validation.Valid;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -42,6 +43,17 @@ private final UserService userService;
             return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
         } catch (InstanceAlreadyExistsException e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Operation(summary = "Delete User by ID")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<UUID> delete(@PathVariable UUID id) {
+        try {
+            userService.deleteUser(id);
+            return new ResponseEntity<>(id, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(id, HttpStatus.BAD_REQUEST);
         }
     }
 

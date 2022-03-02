@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
@@ -50,6 +52,7 @@ public class MyListEntry {
                     name = "mylistentry_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "user_id", referencedColumnName = "id"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
 }
