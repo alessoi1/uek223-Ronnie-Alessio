@@ -1,6 +1,5 @@
 package com.example.demo.domain.appUser;
 
-import com.example.demo.domain.appMyListEntrry.MyListEntry;
 import com.example.demo.domain.appMyListEntrry.MyListEntryRepository;
 import com.example.demo.domain.role.Role;
 import com.example.demo.domain.role.RoleRepository;
@@ -96,9 +95,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Optional<User> findById(UUID id) throws InstanceNotFoundException{
+    public User findById(UUID id) throws InstanceNotFoundException{
         if (userRepository.existsById(id)){
-            return userRepository.findById(id);
+            return userRepository.findById(id).get();
         }
         else {
             throw new InstanceNotFoundException("User not found");

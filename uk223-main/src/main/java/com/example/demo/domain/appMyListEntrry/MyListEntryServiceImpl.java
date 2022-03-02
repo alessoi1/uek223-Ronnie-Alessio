@@ -10,8 +10,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import javax.management.InstanceNotFoundException;
@@ -41,7 +39,7 @@ public class MyListEntryServiceImpl implements MyListEntryService {
 
     @Override
     public MyListEntryDTO findDTOById(UUID id) throws InstanceNotFoundException {
-        MyListEntry myListEntry = findById(id).get();
+        MyListEntry myListEntry = findById(id);
         MyListEntryDTO myListEntryDTO = modelMapper.map(myListEntry, MyListEntryDTO.class);
         myListEntryDTO.setUserDTO(modelMapper.map(myListEntry.getUser(), UserDTO.class));
         return myListEntryDTO;
@@ -59,9 +57,9 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     }
 
     @Override
-    public Optional<MyListEntry> findById(UUID id) throws InstanceNotFoundException {
+    public MyListEntry findById(UUID id) throws InstanceNotFoundException {
         if (myListEntryRepository.existsById(id)) {
-            return myListEntryRepository.findById(id);
+            return myListEntryRepository.findById(id).get();
         }
         else {
             throw new InstanceNotFoundException("MyListEntry not found");

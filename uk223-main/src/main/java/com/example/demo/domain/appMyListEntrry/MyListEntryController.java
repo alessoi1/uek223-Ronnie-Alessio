@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import javax.management.InstanceNotFoundException;
 import javax.validation.Valid;
@@ -56,7 +55,7 @@ public class MyListEntryController {
     @PreAuthorize("(hasAnyRole('ADMIN'))")
     public ResponseEntity<MyListEntry> findById(@Valid @PathVariable UUID id) {
         try {
-            return new ResponseEntity<>(myListEntryService.findById(id).get(), HttpStatus.OK);
+            return new ResponseEntity<>(myListEntryService.findById(id), HttpStatus.OK);
         } catch (InstanceNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
