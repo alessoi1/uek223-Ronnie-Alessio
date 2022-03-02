@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import javax.management.InstanceNotFoundException;
 import javax.validation.Valid;
 import java.util.Collection;
@@ -70,7 +70,7 @@ public class MyListEntryController {
 
     @Operation(summary = "Create MyListEntry")
     @PostMapping()
-    @PreAuthorize("(hasAnyRole('USER', 'ADMIN'))")
+    @PreAuthorize("(hasAnyRole('USER', 'ADMIN')) && (hasAnyAuthority('CAN_EDIT_MYLISTENTRY', 'ADMIN'))")
     public ResponseEntity<MyListEntryDTO> create(@Valid @RequestBody MyListEntry myListEntry) {
         MyListEntryDTO createdEntry = myListEntryService.createMyListEntry(myListEntry);
         return new ResponseEntity<>(createdEntry, HttpStatus.CREATED);
@@ -78,8 +78,11 @@ public class MyListEntryController {
 
     @Operation(summary = "Delete MyListEntry")
     @DeleteMapping("/{id}")
-    @PreAuthorize("(hasAnyRole('USER', 'ADMIN'))")
-    public ResponseEntity<UUID> delete(@PathVariable UUID id) {
+    @PreAuthorize("(hasAnyRole('USER', 'ADMIN')) && (hasAnyAuthority('CAN_EDIT_MYLISTENTRY', 'ADMIN'))")
+    public ResponseEntity<UUID> delete(@Valid @PathVariable UUID id) {
+        boolean isUserAuthorized = myListEntryService.checkUserAuthorityForEntry(id, "ADMIN");
+        if (!isUserAuthorized)
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         try {
             myListEntryService.deleteMyListEntry(id);
             return new ResponseEntity<>(id, HttpStatus.OK);
@@ -90,8 +93,11 @@ public class MyListEntryController {
 
     @Operation(summary = "Update MyListEntry item")
     @PutMapping("/{id}")
-    @PreAuthorize("(hasAnyRole('USER', 'ADMIN'))")
+    @PreAuthorize("(hasAnyRole('USER', 'ADMIN')) && (hasAnyAuthority('CAN_EDIT_MYLISTENTRY', 'ADMIN'))")
     public ResponseEntity<MyListEntryDTO> updateMyListEntry(@PathVariable UUID id, @Valid @RequestBody UpdateMyListEntryDTO updateMyListEntryDTO) {
+        boolean isUserAuthorized = myListEntryService.checkUserAuthorityForEntry(id, "ADMIN");
+        if (!isUserAuthorized)
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         return new ResponseEntity<>(myListEntryService.putMyListEntry(updateMyListEntryDTO, id), HttpStatus.OK);
     }
 }

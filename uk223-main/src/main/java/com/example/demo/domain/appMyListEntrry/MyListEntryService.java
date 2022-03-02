@@ -16,4 +16,5 @@ public interface MyListEntryService {
     MyListEntryDTO putMyListEntry(UpdateMyListEntryDTO myListEntry, UUID id);
     List<MyListEntryDTO> findAllByUser(String username);
     MyListEntry saveMyListEntry(MyListEntry myListEntry);
+    boolean checkUserAuthorityForEntry(UUID uuid, String role);
 }

@@ -10,13 +10,18 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import javax.management.InstanceNotFoundException;
 import javax.transaction.Transactional;
 import java.util.*;
 
-@Service @RequiredArgsConstructor @Transactional @Log4j2
+@Service
+@RequiredArgsConstructor
+@Transactional
+@Log4j2
 public class MyListEntryServiceImpl implements MyListEntryService {
 
     private final MyListEntryRepository myListEntryRepository;
@@ -86,7 +91,7 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     @Override
     @SneakyThrows
     public MyListEntryDTO putMyListEntry(UpdateMyListEntryDTO updateMyListEntryDTO, UUID id) {
-        if (myListEntryRepository.existsById(id)){
+        if (myListEntryRepository.existsById(id)) {
             log.info("Overwrite MyListEntry with ID " + id);
             MyListEntry myListEntryFromDB = myListEntryRepository.findById(id).orElse(null);
             CopyNotNullProps copyNotNullProps = new CopyNotNullProps();
@@ -100,7 +105,7 @@ public class MyListEntryServiceImpl implements MyListEntryService {
             return myListEntry;
         }
         log.warn("Failed to overwrite: MyListEntry with ID " + id + " doesn't exist");
-         return null;
+        return null;
     }
 
     public List<MyListEntryDTO> findAllByUser(String username) {
@@ -117,6 +122,15 @@ public class MyListEntryServiceImpl implements MyListEntryService {
 
     @Override
     public MyListEntry saveMyListEntry(MyListEntry myListEntry) {
-            return myListEntryRepository.save(myListEntry);
+        return myListEntryRepository.save(myListEntry);
+    }
+
+    @Override
+    public boolean checkUserAuthorityForEntry(UUID uuid, String role) {
+        if (SecurityContextHolder.getContext().getAuthentication().getName()
+                .equals(myListEntryRepository.findById(uuid).get().getUser().getUsername())) {
+            return true;
+        }
+        return false;
     }
 }
