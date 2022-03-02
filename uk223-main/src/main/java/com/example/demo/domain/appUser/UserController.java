@@ -1,16 +1,12 @@
 package com.example.demo.domain.appUser;
 
-
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import javax.management.InstanceAlreadyExistsException;
 import javax.management.InstanceNotFoundException;
-import javax.validation.Valid;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -30,7 +26,7 @@ private final UserService userService;
     @GetMapping("/{id}")
     public ResponseEntity<User> findById(@PathVariable UUID id) {
         try {
-            return new ResponseEntity<>(userService.findById(id).get(), HttpStatus.OK);
+            return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
         } catch (InstanceNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
