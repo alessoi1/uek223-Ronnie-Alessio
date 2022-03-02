@@ -37,6 +37,14 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     }
 
     @Override
+    public MyListEntryDTO findDTOById(UUID id) {
+        MyListEntry myListEntry = myListEntryRepository.findById(id).orElse(new MyListEntry());
+        MyListEntryDTO myListEntryDTO = modelMapper.map(myListEntry, MyListEntryDTO.class);
+        myListEntryDTO.setUserDTO(modelMapper.map(myListEntry.getUser(), UserDTO.class));
+        return myListEntryDTO;
+    }
+
+    @Override
     public List<MyListEntryDTO> findAllDTO() {
         List<MyListEntryDTO> myListEntryDTOList = new ArrayList<>();
         List<MyListEntry> myListEntryList = myListEntryRepository.findAll();

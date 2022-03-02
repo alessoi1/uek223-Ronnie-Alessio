@@ -30,6 +30,13 @@ public class MyListEntryController {
         return new ResponseEntity<>(myListEntryService.findAllPageable(page), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get single MyListEntryDTO")
+    @GetMapping("/DTO/{id}")
+    @PreAuthorize("(hasAnyRole('USER', 'ADMIN'))")
+    public ResponseEntity<MyListEntryDTO> findDTOById(@PathVariable UUID id) {
+        return new ResponseEntity<>(myListEntryService.findDTOById(id), HttpStatus.OK);
+    }
+
     @Operation(summary = "Get all MyListEntryDTOs")
     @GetMapping("/DTO")
     @PreAuthorize("(hasAnyRole('USER', 'ADMIN'))")

@@ -8,6 +8,7 @@ import java.util.UUID;
 public interface MyListEntryService {
     List<MyListEntry> findAll();
     List<MyListEntry> findAllPageable(int page);
+    MyListEntryDTO findDTOById(UUID id);
     List<MyListEntryDTO> findAllDTO();
     MyListEntry findById(UUID id);
     MyListEntryDTO createMyListEntry(MyListEntry myListEntry);
