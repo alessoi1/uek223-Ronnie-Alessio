@@ -36,7 +36,7 @@ public class RoleController {
     @Operation(summary = "Create new Role")
     @PostMapping()
     public ResponseEntity<Role> create(@RequestBody Role role) {
-        return new ResponseEntity<>(roleService.createRole(role), HttpStatus.OK);
+        return new ResponseEntity<>(roleService.createRole(role), HttpStatus.CREATED);
     }
 
     @Operation(summary = "Delete Role by ID")
