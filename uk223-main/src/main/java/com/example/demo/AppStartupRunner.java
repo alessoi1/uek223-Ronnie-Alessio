@@ -49,8 +49,6 @@ class AppStartupRunner implements ApplicationRunner {
         roleRepository.save(ADMIN_ROLE);
         Role USER_ROLE = new Role(null, "USER", Arrays.asList(READ_MYLISTENTRY_AUTH, EDIT_MYLISTENTRY_AUTH));
         roleRepository.save(USER_ROLE);
-        Role GUEST_ROLE = new Role(null, "GUEST", Arrays.asList());
-        roleRepository.save(GUEST_ROLE);
 
         // Users
         User admin = new User(null, "admin", "admin@admin.admin", "Admin123", Set.of(ADMIN_ROLE));
@@ -59,8 +57,6 @@ class AppStartupRunner implements ApplicationRunner {
         userService.saveUser(silvan);
         User markus = new User(null, "markus", "markus.stein@mi6.com", "Passwort", Set.of(USER_ROLE));
         userService.saveUser(markus);
-        User ruediger = new User(null, "ruediger", "ruediger.meier@mi6.com", "Passwort", Set.of(USER_ROLE));
-        userService.saveUser(ruediger);
 
         //MyListEntry
         MyListEntry myListEntry1 = new MyListEntry(null, "Admins Blog", "Ich bin ein Admin", new Date(), 2, admin);
@@ -71,15 +67,12 @@ class AppStartupRunner implements ApplicationRunner {
         myListEntryService.saveMyListEntry(myListEntry3);
         MyListEntry myListEntry4 = new MyListEntry(null, "Hello World!", "blablablabla blabla blabla", new Date(), 3, silvan);
         myListEntryService.saveMyListEntry(myListEntry4);
-        MyListEntry myListEntry5 = new MyListEntry(null, "Mein Titel", "Mein Text", new Date(), 5, ruediger);
-        myListEntryService.saveMyListEntry(myListEntry5);
         MyListEntry myListEntry6 = new MyListEntry(null, "Markus Blog", "Markus Text", new Date(), 5, markus);
         myListEntryService.saveMyListEntry(myListEntry6);
 
         userService.addRoleToUser(admin.getUsername(), ADMIN_ROLE.getName());
         userService.addRoleToUser(silvan.getUsername(), USER_ROLE.getName());
         userService.addRoleToUser(markus.getUsername(), USER_ROLE.getName());
-        userService.addRoleToUser(ruediger.getUsername(), USER_ROLE.getName());
     }
 }
 

@@ -124,7 +124,7 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     }
 
     @Override
-    public boolean checkUserAuthorityForEntry(UUID uuid, String role) {
+    public boolean checkUserAuthorityForEntry(UUID uuid) {
         if (SecurityContextHolder.getContext().getAuthentication().getName()
                 .equals(myListEntryRepository.findById(uuid).get().getUser().getUsername())) {
             return true;
