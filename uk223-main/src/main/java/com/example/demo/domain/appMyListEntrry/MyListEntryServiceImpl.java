@@ -63,7 +63,7 @@ public class MyListEntryServiceImpl implements MyListEntryService {
 
     @Override
     public MyListEntry findById(UUID id) {
-        return myListEntryRepository.findById(id).orElse(new MyListEntry());
+        return myListEntryRepository.findById(id).orElse(null);
     }
 
     @Override

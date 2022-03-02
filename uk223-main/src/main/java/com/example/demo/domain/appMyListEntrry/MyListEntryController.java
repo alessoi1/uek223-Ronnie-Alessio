@@ -37,6 +37,9 @@ public class MyListEntryController {
     @GetMapping("/DTO/{id}")
     @PreAuthorize("(hasAnyRole('USER', 'ADMIN'))")
     public ResponseEntity<MyListEntryDTO> findDTOById(@Valid @PathVariable UUID id) {
+        if (myListEntryService.findById(id) == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(myListEntryService.findDTOById(id), HttpStatus.OK);
     }
 
@@ -51,7 +54,11 @@ public class MyListEntryController {
     @GetMapping("/{id}")
     @PreAuthorize("(hasAnyRole('ADMIN'))")
     public ResponseEntity<MyListEntry> findById(@Valid @PathVariable UUID id) {
-        return new ResponseEntity<>(myListEntryService.findById(id), HttpStatus.OK);
+        MyListEntry result = myListEntryService.findById(id);
+        if (result == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Operation(summary = "Get all MyListEntries filtered by user")
