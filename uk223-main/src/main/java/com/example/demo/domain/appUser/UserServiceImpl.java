@@ -3,7 +3,6 @@ package com.example.demo.domain.appUser;
 import com.example.demo.domain.role.Role;
 import com.example.demo.domain.role.RoleRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,11 +10,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import javax.management.InstanceAlreadyExistsException;
 import javax.management.InstanceNotFoundException;
 import javax.transaction.Transactional;
-
 import java.util.*;
 
 @Service @RequiredArgsConstructor @Transactional
@@ -91,12 +88,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User getUser(String username) {
         return userRepository.findByUsername(username);
     }
+
     @Override
     public Optional<User> findById(UUID id) throws InstanceNotFoundException{
         if (userRepository.existsById(id)){
             return userRepository.findById(id);
         }
-        else{
+        else {
             throw new InstanceNotFoundException("User not found");
         }
     }

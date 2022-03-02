@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import javax.management.InstanceNotFoundException;
 import javax.validation.Valid;
 import java.util.Collection;
 import java.util.UUID;
@@ -35,10 +37,11 @@ public class MyListEntryController {
     @GetMapping("/DTO/{id}")
     @PreAuthorize("(hasAnyRole('USER', 'ADMIN'))")
     public ResponseEntity<MyListEntryDTO> findDTOById(@Valid @PathVariable UUID id) {
-        if (myListEntryService.findById(id) == null) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        try {
+            return new ResponseEntity<>(myListEntryService.findDTOById(id), HttpStatus.OK);
+        } catch (InstanceNotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(myListEntryService.findDTOById(id), HttpStatus.OK);
     }
 
     @Operation(summary = "Get all MyListEntryDTOs")
@@ -52,11 +55,11 @@ public class MyListEntryController {
     @GetMapping("/{id}")
     @PreAuthorize("(hasAnyRole('ADMIN'))")
     public ResponseEntity<MyListEntry> findById(@Valid @PathVariable UUID id) {
-        MyListEntry result = myListEntryService.findById(id);
-        if (result == null) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        try {
+            return new ResponseEntity<>(myListEntryService.findById(id).get(), HttpStatus.OK);
+        } catch (InstanceNotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Operation(summary = "Get all MyListEntries filtered by user")

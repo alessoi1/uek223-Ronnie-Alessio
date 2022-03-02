@@ -1,16 +1,16 @@
 package com.example.demo.domain.appMyListEntrry;
 
-import com.example.demo.domain.appUser.User;
-
+import javax.management.InstanceNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface MyListEntryService {
     List<MyListEntry> findAll();
     List<MyListEntry> findAllPageable(int page);
-    MyListEntryDTO findDTOById(UUID id);
+    MyListEntryDTO findDTOById(UUID id) throws InstanceNotFoundException;
     List<MyListEntryDTO> findAllDTO();
-    MyListEntry findById(UUID id);
+    Optional<MyListEntry> findById(UUID id) throws InstanceNotFoundException;
     MyListEntryDTO createMyListEntry(MyListEntry myListEntry);
     void deleteMyListEntry(UUID id);
     MyListEntryDTO putMyListEntry(UpdateMyListEntryDTO myListEntry, UUID id);
