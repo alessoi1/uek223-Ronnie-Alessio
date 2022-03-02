@@ -79,10 +79,10 @@ public class MyListEntryController {
     @Operation(summary = "Delete MyListEntry")
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN') && hasAnyAuthority('CAN_EDIT_MYLISTENTRY', 'ADMIN')")
-    public ResponseEntity<Object> delete(@Valid @PathVariable UUID id) {
+    public ResponseEntity<Object> delete(@Valid @PathVariable UUID id) throws InstanceNotFoundException {
         boolean isUserAuthorized = myListEntryService.checkUserAuthorityForEntry(id);
         if (!isUserAuthorized)
-            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         try {
             myListEntryService.deleteMyListEntry(id);
             return new ResponseEntity<>(id, HttpStatus.OK);
@@ -94,10 +94,10 @@ public class MyListEntryController {
     @Operation(summary = "Update MyListEntry item")
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN') && hasAnyAuthority('CAN_EDIT_MYLISTENTRY', 'ADMIN')")
-    public ResponseEntity<MyListEntryDTO> updateMyListEntry(@PathVariable UUID id, @Valid @RequestBody UpdateMyListEntryDTO updateMyListEntryDTO) {
+    public ResponseEntity<MyListEntryDTO> updateMyListEntry(@PathVariable UUID id, @Valid @RequestBody UpdateMyListEntryDTO updateMyListEntryDTO) throws InstanceNotFoundException {
         boolean isUserAuthorized = myListEntryService.checkUserAuthorityForEntry(id);
         if (!isUserAuthorized)
-            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>( HttpStatus.FORBIDDEN);
         return new ResponseEntity<>(myListEntryService.putMyListEntry(updateMyListEntryDTO, id), HttpStatus.OK);
     }
 }

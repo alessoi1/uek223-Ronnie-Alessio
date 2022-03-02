@@ -28,7 +28,7 @@ private final UserService userService;
         try {
             return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
         } catch (InstanceNotFoundException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -38,7 +38,7 @@ private final UserService userService;
         try {
             return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
         } catch (InstanceAlreadyExistsException e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -32,7 +32,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role findById(@PathVariable UUID id) throws InstanceNotFoundException {
         if (roleRepository.existsById(id)) {
-            return roleRepository.findById(id).get();
+            return roleRepository.findById(id).orElseThrow(InstanceNotFoundException::new);
         }
         else {
             throw new InstanceNotFoundException("Role doesn't exist");
