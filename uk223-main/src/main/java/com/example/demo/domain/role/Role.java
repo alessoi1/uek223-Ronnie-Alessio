@@ -1,11 +1,8 @@
 package com.example.demo.domain.role;
 
-import com.example.demo.domain.appUser.User;
 import com.example.demo.domain.authority.Authority;
 import lombok.*;
-
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,6 +16,7 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
     @Column(nullable = false)
     private String name;
 
@@ -30,10 +28,8 @@ public class Role {
                     name = "authority_id", referencedColumnName = "id"))
     private List<Authority> authorities;
 
-
     public String toString() {
         return getName();
     }
-
 
 }
