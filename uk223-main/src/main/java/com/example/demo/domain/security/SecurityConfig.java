@@ -38,11 +38,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().httpBasic().and()
+        http.httpBasic().and()
                 .authorizeRequests()
                 .antMatchers("/swagger-ui/**").permitAll()
-                .antMatchers("/api/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/api/**").hasAnyRole("USER", "ADMIN")
                 .and()
+                .csrf()
+                .disable()
                 // some more method calls
                 .formLogin();
     }
