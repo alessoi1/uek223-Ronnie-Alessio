@@ -79,7 +79,7 @@ public class MyListEntryController {
     @Operation(summary = "Delete MyListEntry")
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN') && hasAnyAuthority('CAN_EDIT_MYLISTENTRY', 'ADMIN')")
-    public ResponseEntity<UUID> delete(@Valid @PathVariable UUID id) {
+    public ResponseEntity<UUID> delete(@PathVariable UUID id) {
         boolean isUserAuthorized = myListEntryService.checkUserAuthorityForEntry(id);
         if (!isUserAuthorized)
             return new ResponseEntity<>(id, HttpStatus.FORBIDDEN);
