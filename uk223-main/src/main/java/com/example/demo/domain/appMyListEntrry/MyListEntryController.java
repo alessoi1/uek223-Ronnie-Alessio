@@ -26,6 +26,7 @@ public class MyListEntryController {
 
     @Operation(summary = "Get all MyListEntries pageable")
     @GetMapping("/page/{page}")
+    @PreAuthorize("(hasAnyRole('ADMIN'))")
     public ResponseEntity<Collection<MyListEntry>> findAllPageable(@PathVariable int page) {
         return new ResponseEntity<>(myListEntryService.findAllPageable(page), HttpStatus.OK);
     }
@@ -33,7 +34,7 @@ public class MyListEntryController {
     @Operation(summary = "Get single MyListEntryDTO")
     @GetMapping("/DTO/{id}")
     @PreAuthorize("(hasAnyRole('USER', 'ADMIN'))")
-    public ResponseEntity<MyListEntryDTO> findDTOById(@PathVariable UUID id) {
+    public ResponseEntity<MyListEntryDTO> findDTOById(@Valid @PathVariable UUID id) {
         return new ResponseEntity<>(myListEntryService.findDTOById(id), HttpStatus.OK);
     }
 
@@ -46,20 +47,20 @@ public class MyListEntryController {
 
     @Operation(summary = "Get a specific MyListEntry item")
     @GetMapping("/{id}")
-    @PreAuthorize("(hasAnyRole('USER', 'ADMIN'))")
+    @PreAuthorize("(hasAnyRole('ADMIN'))")
     public ResponseEntity<MyListEntry> findById(@Valid @PathVariable UUID id) {
         return new ResponseEntity<>(myListEntryService.findById(id), HttpStatus.OK);
     }
 
     @Operation(summary = "Get all MyListEntries filtered by user")
     @GetMapping("/username/{username}")
-    public ResponseEntity<Collection<MyListEntry>> findAllByUser(@PathVariable String username) {
+    public ResponseEntity<Collection<MyListEntryDTO>> findAllByUser(@PathVariable String username) {
         return new ResponseEntity<>(myListEntryService.findAllByUser(username), HttpStatus.OK);
     }
 
     @Operation(summary = "Create MyListEntry")
     @PostMapping()
-    @PreAuthorize("(hasAnyRole('USER', 'ADMIN')) && (hasAnyAuthority('CAN_CREATE_MYLISTENTRY', 'ADMIN'))")
+    @PreAuthorize("(hasAnyRole('USER', 'ADMIN'))")
     public ResponseEntity<MyListEntryDTO> create(@Valid @RequestBody MyListEntry myListEntry) {
         MyListEntryDTO createdEntry = myListEntryService.createMyListEntry(myListEntry);
         return new ResponseEntity<>(createdEntry, HttpStatus.CREATED);
@@ -67,7 +68,7 @@ public class MyListEntryController {
 
     @Operation(summary = "Delete MyListEntry")
     @DeleteMapping("/{id}")
-    @PreAuthorize("(hasAnyRole('USER', 'ADMIN')) && (hasAnyAuthority('CAN_DELETE_MYLISTENTRY', 'ADMIN'))")
+    @PreAuthorize("(hasAnyRole('USER', 'ADMIN'))")
     public ResponseEntity<Object> delete(@Valid @PathVariable UUID id) {
         try {
             myListEntryService.deleteMyListEntry(id);
@@ -79,7 +80,7 @@ public class MyListEntryController {
 
     @Operation(summary = "Update MyListEntry item")
     @PutMapping("/{id}")
-    @PreAuthorize("(hasAnyRole('USER', 'ADMIN')) && (hasAnyAuthority('CAN_UPDATE_MYLISTENTRY', 'ADMIN'))")
+    @PreAuthorize("(hasAnyRole('USER', 'ADMIN'))")
     public ResponseEntity<MyListEntryDTO> updateMyListEntry(@PathVariable UUID id, @Valid @RequestBody UpdateMyListEntryDTO updateMyListEntryDTO) {
         return new ResponseEntity<>(myListEntryService.putMyListEntry(updateMyListEntryDTO, id), HttpStatus.OK);
     }

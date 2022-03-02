@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Set;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -40,11 +41,13 @@ class AppStartupRunner implements ApplicationRunner {
         authorityRepository.save(READ_MYLISTENTRY_AUTH);
         Authority EDIT_MYLISTENTRY_AUTH = new Authority(null, "CAN_EDIT_MYLISTENTRY");
         authorityRepository.save(EDIT_MYLISTENTRY_AUTH);
+        Authority ADMIN = new Authority(null, "ADMIN");
+        authorityRepository.save(ADMIN);
 
         //Roles
-        Role ADMIN_ROLE = new Role(null, "ADMIN", Arrays.asList(EDIT_MYLISTENTRY_AUTH));
+        Role ADMIN_ROLE = new Role(null, "ADMIN", Arrays.asList(ADMIN));
         roleRepository.save(ADMIN_ROLE);
-        Role USER_ROLE = new Role(null, "USER", Arrays.asList(READ_MYLISTENTRY_AUTH));
+        Role USER_ROLE = new Role(null, "USER", Arrays.asList(READ_MYLISTENTRY_AUTH, EDIT_MYLISTENTRY_AUTH));
         roleRepository.save(USER_ROLE);
         Role GUEST_ROLE = new Role(null, "GUEST", Arrays.asList());
         roleRepository.save(GUEST_ROLE);

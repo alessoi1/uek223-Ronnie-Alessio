@@ -100,8 +100,16 @@ public class MyListEntryServiceImpl implements MyListEntryService {
          return null;
     }
 
-    public List<MyListEntry> findAllByUser(String username) {
-        return myListEntryRepository.findAllByUser(userRepository.findByUsername(username).getId());
+    public List<MyListEntryDTO> findAllByUser(String username) {
+        List<MyListEntryDTO> myListEntryDTOList = new ArrayList<>();
+        List<MyListEntry> myListEntrybyUser = myListEntryRepository.findAllByUser(userRepository.findByUsername(username).getId());
+
+        for (int i = 0; i < myListEntrybyUser.size(); i++) {
+            myListEntryDTOList.add(modelMapper.map(myListEntrybyUser.get(i), MyListEntryDTO.class));
+            myListEntryDTOList.get(i).setUserDTO(modelMapper.map(myListEntrybyUser.get(i).getUser(), UserDTO.class));
+        }
+
+        return myListEntryDTOList;
     }
 
     @Override

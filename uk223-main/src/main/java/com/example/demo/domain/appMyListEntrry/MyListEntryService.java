@@ -14,6 +14,6 @@ public interface MyListEntryService {
     MyListEntryDTO createMyListEntry(MyListEntry myListEntry);
     void deleteMyListEntry(UUID id);
     MyListEntryDTO putMyListEntry(UpdateMyListEntryDTO myListEntry, UUID id);
-    List<MyListEntry> findAllByUser(String username);
+    List<MyListEntryDTO> findAllByUser(String username);
     MyListEntry saveMyListEntry(MyListEntry myListEntry);
 }
