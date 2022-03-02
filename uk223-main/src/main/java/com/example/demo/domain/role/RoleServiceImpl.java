@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import javax.management.InstanceNotFoundException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service @RequiredArgsConstructor
@@ -31,8 +32,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role findById(@PathVariable UUID id) throws InstanceNotFoundException {
-        if (roleRepository.existsById(id)) {
-            return roleRepository.findById(id).get();
+        Optional<Role> result = roleRepository.findById(id);
+        if (roleRepository.existsById(id) && result.isPresent()) {
+            return result.get();
         }
         else {
             throw new InstanceNotFoundException("Role doesn't exist");

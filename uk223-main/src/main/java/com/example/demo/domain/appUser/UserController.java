@@ -24,11 +24,11 @@ private final UserService userService;
 
     @Operation(summary = "Get single User by ID")
     @GetMapping("/{id}")
-    public ResponseEntity<User> findById(@PathVariable UUID id) {
+    public ResponseEntity<Object> findById(@PathVariable UUID id) {
         try {
             return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
         } catch (InstanceNotFoundException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(id, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -38,7 +38,7 @@ private final UserService userService;
         try {
             return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
         } catch (InstanceAlreadyExistsException e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(user, HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -2,7 +2,6 @@ package com.example.demo.domain.role;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,11 +24,11 @@ public class RoleController {
 
     @Operation(summary = "Get single Role by ID")
     @GetMapping("/{id}")
-    public ResponseEntity<Role> findById(@PathVariable UUID id) {
+    public ResponseEntity<Object> findById(@PathVariable UUID id) {
         try {
             return new ResponseEntity<>(roleService.findById(id), HttpStatus.OK);
         } catch (InstanceNotFoundException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(id, HttpStatus.NOT_FOUND);
         }
     }
 

@@ -58,8 +58,9 @@ public class MyListEntryServiceImpl implements MyListEntryService {
 
     @Override
     public MyListEntry findById(UUID id) throws InstanceNotFoundException {
-        if (myListEntryRepository.existsById(id)) {
-            return myListEntryRepository.findById(id).get();
+        Optional<MyListEntry> result = myListEntryRepository.findById(id);
+        if (myListEntryRepository.existsById(id) && result.isPresent()) {
+            return result.get();
         }
         else {
             throw new InstanceNotFoundException("MyListEntry not found");
@@ -125,10 +126,11 @@ public class MyListEntryServiceImpl implements MyListEntryService {
 
     @Override
     public boolean checkUserAuthorityForEntry(UUID uuid) {
-        if (SecurityContextHolder.getContext().getAuthentication().getName()
-                .equals(myListEntryRepository.findById(uuid).get().getUser().getUsername())) {
-            return true;
+        try {
+            return SecurityContextHolder.getContext().getAuthentication().getName()
+                    .equals(findById(uuid).getUser().getUsername());
+        } catch (InstanceNotFoundException e) {
+            return false;
         }
-        return false;
     }
 }

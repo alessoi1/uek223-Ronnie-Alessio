@@ -2,9 +2,6 @@ package com.example.demo.domain.appUser;
 
 import com.example.demo.domain.role.Role;
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
