@@ -35,10 +35,10 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     public List<MyListEntryDTO> findAllPageable(int page) {
         Pageable pageable = PageRequest.of(page, 5, Sort.by("erstellungsdatum"));
         List<MyListEntry> myListEntryList = myListEntryRepository.findAll(pageable).getContent();
-        return MapMyListEntryList(myListEntryList);
+        return mapMyListEntryList(myListEntryList);
     }
 
-    private List<MyListEntryDTO> MapMyListEntryList(List<MyListEntry> myListEntryList) {
+    private List<MyListEntryDTO> mapMyListEntryList(List<MyListEntry> myListEntryList) {
         List<MyListEntryDTO> myListEntryDTOList = new ArrayList<>();
         for (int i = 0; i < myListEntryList.size(); i++) {
             myListEntryDTOList.add(modelMapper.map(myListEntryList.get(i), MyListEntryDTO.class));
@@ -58,7 +58,7 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     @Override
     public List<MyListEntryDTO> findAllDTO() {
         List<MyListEntry> myListEntryList = myListEntryRepository.findAll();
-        return MapMyListEntryList(myListEntryList);
+        return mapMyListEntryList(myListEntryList);
     }
 
     @Override
@@ -116,7 +116,7 @@ public class MyListEntryServiceImpl implements MyListEntryService {
 
     public List<MyListEntryDTO> findAllByUser(String username) {
         List<MyListEntry> myListEntryListByUser = myListEntryRepository.findAllByUser(userRepository.findByUsername(username).getId());
-        return MapMyListEntryList(myListEntryListByUser);
+        return mapMyListEntryList(myListEntryListByUser);
     }
 
     @Override

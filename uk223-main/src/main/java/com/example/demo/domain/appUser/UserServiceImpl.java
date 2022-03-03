@@ -28,6 +28,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final RoleRepository roleRepository;
 
+    private static final String USERNOTFOUND = "User not found";
+
     private final MyListEntryRepository myListEntryRepository;
 
     private final PasswordEncoder passwordEncoder;
@@ -41,7 +43,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = userRepository.findByUsername(username);
 
         if (user == null){
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException(USERNOTFOUND);
         }
         else {
 //          Construct a valid set of Authorities (needs to implement Granted Authorities)
@@ -104,7 +106,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             return result.get();
         }
         else {
-            throw new InstanceNotFoundException("User not found");
+            throw new InstanceNotFoundException(USERNOTFOUND);
         }
     }
 
@@ -122,12 +124,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
             CopyNotNullProps copyNotNullProps = new CopyNotNullProps();
             copyNotNullProps.copyProperties(userFromDB, user);
+            assert userFromDB != null;
             userRepository.saveAndFlush(userFromDB);
 
             return modelMapper.map(userFromDB, UserUpdateDTO.class);
         }
         else {
-            throw new InstanceNotFoundException("User not found");
+            throw new InstanceNotFoundException(USERNOTFOUND);
         }
     }
 
