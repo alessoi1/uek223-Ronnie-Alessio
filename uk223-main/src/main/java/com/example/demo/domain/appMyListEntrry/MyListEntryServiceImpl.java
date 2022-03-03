@@ -1,8 +1,10 @@
 package com.example.demo.domain.appMyListEntrry;
 
 import com.example.demo.domain.Utils.CopyNotNullProps;
+import com.example.demo.domain.appUser.User;
 import com.example.demo.domain.appUser.UserDTO;
 import com.example.demo.domain.appUser.UserRepository;
+import com.example.demo.domain.role.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
@@ -24,6 +26,7 @@ public class MyListEntryServiceImpl implements MyListEntryService {
 
     private final MyListEntryRepository myListEntryRepository;
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final ModelMapper modelMapper;
 
     @Override
@@ -126,9 +129,10 @@ public class MyListEntryServiceImpl implements MyListEntryService {
 
     @Override
     public boolean checkUserAuthorityForEntry(UUID uuid) {
+        User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         try {
-            return SecurityContextHolder.getContext().getAuthentication().getName()
-                    .equals(findById(uuid).getUser().getUsername());
+            return user.getUsername().equals(findById(uuid).getUser().getUsername()) ||
+                    user.getRoles().contains(roleRepository.findByName("ADMIN"));
         } catch (InstanceNotFoundException e) {
             return false;
         }
