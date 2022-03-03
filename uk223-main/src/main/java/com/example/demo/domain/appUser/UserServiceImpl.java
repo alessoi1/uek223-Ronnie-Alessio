@@ -1,10 +1,13 @@
 package com.example.demo.domain.appUser;
 
+import com.example.demo.domain.Utils.CopyNotNullProps;
+import com.example.demo.domain.appMyListEntrry.MyListEntry;
 import com.example.demo.domain.appMyListEntrry.MyListEntryRepository;
 import com.example.demo.domain.role.Role;
 import com.example.demo.domain.role.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.management.InstanceAlreadyExistsException;
 import javax.management.InstanceNotFoundException;
 import javax.transaction.Transactional;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 @Service @RequiredArgsConstructor @Transactional @Log4j2
@@ -28,6 +32,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final ModelMapper modelMapper;
 
     @Override
 //    This method is used for security authentication, use caution when changing this
@@ -106,6 +111,24 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public UserUpdateDTO update(UserUpdateDTO user, UUID uuid) throws InstanceNotFoundException, InvocationTargetException, IllegalAccessException {
+        if (userRepository.existsById(uuid)) {
+            log.info("Overwrite User with ID " + uuid);
+            User userFromDB = userRepository.findById(uuid).orElse(null);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+            CopyNotNullProps copyNotNullProps = new CopyNotNullProps();
+            copyNotNullProps.copyProperties(userFromDB, user);
+            userRepository.saveAndFlush(userFromDB);
+
+            return modelMapper.map(userFromDB, UserUpdateDTO.class);
+        }
+        else {
+            throw new InstanceNotFoundException("User not found");
+        }
     }
 
     @Override
