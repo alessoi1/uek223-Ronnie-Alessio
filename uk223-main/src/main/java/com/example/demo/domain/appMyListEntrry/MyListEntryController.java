@@ -71,8 +71,8 @@ public class MyListEntryController {
     @Operation(summary = "Create MyListEntry")
     @PostMapping()
     @PreAuthorize("hasAnyRole('USER', 'ADMIN') && hasAnyAuthority('CAN_EDIT_MYLISTENTRY', 'ADMIN')")
-    public ResponseEntity<MyListEntryDTO> create(@Valid @RequestBody MyListEntry myListEntry) {
-        MyListEntryDTO createdEntry = myListEntryService.createMyListEntry(myListEntry);
+    public ResponseEntity<MyListEntryDTO> create(@RequestBody CreateMyListEntryDTO createMyListEntryDTO) {
+        MyListEntryDTO createdEntry = myListEntryService.createMyListEntry(createMyListEntryDTO);
         return new ResponseEntity<>(createdEntry, HttpStatus.CREATED);
     }
 

@@ -73,10 +73,12 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     }
 
     @Override
-    public MyListEntryDTO createMyListEntry(MyListEntry myListEntry) {
+    public MyListEntryDTO createMyListEntry(CreateMyListEntryDTO myListEntryDTO) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        myListEntry.setErstellungsdatum(new Date());
+
+        MyListEntry myListEntry = modelMapper.map(myListEntryDTO, MyListEntry.class);
         myListEntry.setUser(userRepository.findByUsername(username));
+        myListEntry.setErstellungsdatum(new Date());
 
         MyListEntry createdEntry = myListEntryRepository.save(myListEntry);
         log.info("Create MyListEntry with ID " + createdEntry.getId());
