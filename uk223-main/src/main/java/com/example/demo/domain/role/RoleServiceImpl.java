@@ -1,11 +1,15 @@
 package com.example.demo.domain.role;
 
+import com.example.demo.domain.Utils.CopyNotNullProps;
+import com.example.demo.domain.appUser.User;
+import com.example.demo.domain.appUser.UserUpdateDTO;
 import com.example.demo.domain.authority.Authority;
 import com.example.demo.domain.authority.AuthorityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import javax.management.InstanceNotFoundException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +19,8 @@ import java.util.UUID;
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
+
+    private static final String ROLEDOESNTEXIST = "Role doesn't exist";
 
     private final AuthorityRepository authorityRepository;
 
@@ -37,13 +43,31 @@ public class RoleServiceImpl implements RoleService {
             return result.get();
         }
         else {
-            throw new InstanceNotFoundException("Role doesn't exist");
+            throw new InstanceNotFoundException(ROLEDOESNTEXIST);
         }
     }
 
     @Override
     public Role createRole(Role role) {
         return roleRepository.save(role);
+    }
+
+    @Override
+    public Role updateRole(UUID id, Role role) throws InvocationTargetException, IllegalAccessException, InstanceNotFoundException {
+        if (roleRepository.existsById(id)) {
+            Role roleFromDB = roleRepository.findById(id).orElse(null);
+
+            CopyNotNullProps copyNotNullProps = new CopyNotNullProps();
+            copyNotNullProps.copyProperties(roleFromDB, role);
+
+            assert roleFromDB != null;
+            roleRepository.saveAndFlush(roleFromDB);
+
+            return roleFromDB;
+        }
+        else {
+            throw new InstanceNotFoundException(ROLEDOESNTEXIST);
+        }
     }
 
     @Override
@@ -56,7 +80,7 @@ public class RoleServiceImpl implements RoleService {
             }
         }
         else {
-            throw new InstanceNotFoundException("Role doesn't exist");
+            throw new InstanceNotFoundException(ROLEDOESNTEXIST);
         }
     }
 }

@@ -17,4 +17,5 @@ public interface UserService {
     List<User> findAll();
     UserUpdateDTO update(UserUpdateDTO user, UUID uuid) throws InstanceNotFoundException, InvocationTargetException, IllegalAccessException;
     void deleteUser(UUID id);
+    boolean checkUserAuthorityForEntry(UUID uuid);
 }

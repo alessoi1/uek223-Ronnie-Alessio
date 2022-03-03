@@ -10,6 +10,7 @@ import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -138,5 +139,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void deleteUser(UUID id) {
         log.info("Delete User with ID " + id);
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean checkUserAuthorityForEntry(UUID uuid) {
+        User currentUser = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        try {
+            return currentUser.getUsername().equals(userRepository.findById(uuid).orElseThrow(InstanceNotFoundException::new).getUsername()) ||
+                    currentUser.getRoles().contains(roleRepository.findByName("ADMIN"));
+        } catch (InstanceNotFoundException e) {
+            return false;
+        }
     }
 }
