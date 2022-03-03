@@ -28,6 +28,6 @@ class AppStartupRunner implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
 
     }
-    
+
 }
 
