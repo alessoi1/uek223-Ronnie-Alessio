@@ -1,62 +1,32 @@
-/*insert into users (id, email, password, username) values ('e043d2c8-9a88-47c4-ab83-d11414518048', 'pneat0@soundcloud.com', 'jUQcnZt3r', 'gberanek0');
-insert into users (id, email, password, username) values ('5dbfa8ee-48b1-4594-93f8-5a7bfc397b1d', 'fbrunicke1@techcrunch.com', 'uQAFnkH', 'mpourveer1');
-insert into users (id, email, password, username) values ('abcaeec3-3448-409f-bc61-4fc988fae18c', 'jsebborn2@nytimes.com', 'zAvaVFpzi', 'zrenshall2');
-insert into users (id, email, password, username) values ('e6fa0a48-4ca7-4e6e-b40b-76e11deb593f', 'gdurand3@elpais.com', 'CnPM7OF5Bm1p', 'ftrevaskis3');
-insert into users (id, email, password, username) values ('888efae4-2b5c-47b9-bd55-fd3d04f8915d', 'wbertomieu4@hostgator.com', '7eTBKYW77', 'cranger4');
-insert into users (id, email, password, username) values ('65e4f8c1-415e-433b-a508-bb49d422eb82', 'dgayther5@loc.gov', '8P59jkcMVX3E', 'gspittles5');
-insert into users (id, email, password, username) values ('9a3b8d19-e06f-446a-be03-07f3871a3c47', 'femblow6@unesco.org', 'SJKVNT', 'lgrabiec6');
-insert into users (id, email, password, username) values ('f901d843-455d-4f02-8023-8b1b5801e664', 'rhubball7@wikimedia.org', 'IkNjuEk7eP8', 'astealfox7');
-insert into users (id, email, password, username) values ('a3253318-8fa8-4209-9c5d-127f54b22673', 'admin@admin.gl', 'admin', 'admin');
-insert into users (id, email, password, username) values ('3d776dd4-3387-45d4-a0b9-d9068a49da72', 'guest@guest.org', 'guest', 'guest');
+insert into public.authority (id, name) values ('7420e40b-7dc8-49f9-9a83-a897205622f6', 'CAN_READ_MYLISTENTRY');
+insert into public.authority (id, name) values ('19bbf652-f5ee-4d10-9c69-ae4d09c0f66a', 'CAN_EDIT_MYLISTENTRY');
+insert into public.authority (id, name) values ('9fffbc65-3dc6-478c-b924-0b9f079e2261', 'ADMIN');
 
-insert into mylistentry (id, erstellungsdatum, text, titel, wichtigkeit) values ('6d527fc7-e44a-442d-b476-613fd112f987', '2021-11-30 04:51:08', 'Research and Development', 'Fritsch, Kling and Greenholt', 7);
-insert into mylistentry (id, erstellungsdatum, text, titel, wichtigkeit) values ('24961e39-bdbd-431e-9589-572698990ed0', '2021-08-06 21:05:52', 'Engineering', 'Daniel, Nader and Lynch', 3);
-insert into mylistentry (id, erstellungsdatum, text, titel, wichtigkeit) values ('b6f08eb6-0019-4ec0-a520-f7930913991b', '2021-11-24 07:48:42', 'Support', 'Bahringer-Gutmann', 5);
-insert into mylistentry (id, erstellungsdatum, text, titel, wichtigkeit) values ('ce1aca53-f6d0-43a2-a3bd-017544120120', '2021-06-11 10:58:13', 'Product Management', 'Altenwerth, Wunsch and Deckow', 10);
-insert into mylistentry (id, erstellungsdatum, text, titel, wichtigkeit) values ('10b28934-eabb-4404-b839-da8666aa1c26', '2021-10-08 14:08:30', 'Accounting', 'Wuckert, Wilderman and Toy', 4);
-insert into mylistentry (id, erstellungsdatum, text, titel, wichtigkeit) values ('cdb117c6-9758-48f5-a5fb-a48402154e61', '2021-09-19 09:25:30', 'Research and Development', 'Harber, Wisozk and Bode', 9);
-insert into mylistentry (id, erstellungsdatum, text, titel, wichtigkeit) values ('0c43f1b1-8224-482c-a1fa-16f0ab1f68ec', '2021-12-06 22:54:24', 'Business Development', 'McLaughlin, McLaughlin and Block', 7);
-insert into mylistentry (id, erstellungsdatum, text, titel, wichtigkeit) values ('2881757a-59ca-45e4-84a0-c641fb012071', '2021-12-16 00:53:48', 'Product Management', 'Towne-Hagenes', 2);
-insert into mylistentry (id, erstellungsdatum, text, titel, wichtigkeit) values ('5cc6d6db-97f1-4a82-9353-a64b42e4e7e7', '2021-07-05 16:36:42', 'Legal', 'Williamson and Sons', 6);
-insert into mylistentry (id, erstellungsdatum, text, titel, wichtigkeit) values ('21e06ae7-2745-4b79-bfec-49c9409140bf', '2022-01-08 14:25:00', 'Services', 'Langworth Group', 8);
+insert into public.role (id, name) values ('c51dbbd6-6263-404a-93c4-668721ad2411', 'ADMIN');
+insert into public.role (id, name) values ('558a4d28-6b63-4c57-a4f7-7ac3a793307d', 'USER');
 
-insert into mylistentry_user (user_id, mylistentry_id) values ('e043d2c8-9a88-47c4-ab83-d11414518048', '6d527fc7-e44a-442d-b476-613fd112f987');
-insert into mylistentry_user (user_id, mylistentry_id) values ('5dbfa8ee-48b1-4594-93f8-5a7bfc397b1d', '24961e39-bdbd-431e-9589-572698990ed0');
-insert into mylistentry_user (user_id, mylistentry_id) values ('abcaeec3-3448-409f-bc61-4fc988fae18c', 'b6f08eb6-0019-4ec0-a520-f7930913991b');
-insert into mylistentry_user (user_id, mylistentry_id) values ('e6fa0a48-4ca7-4e6e-b40b-76e11deb593f', 'ce1aca53-f6d0-43a2-a3bd-017544120120');
-insert into mylistentry_user (user_id, mylistentry_id) values ('888efae4-2b5c-47b9-bd55-fd3d04f8915d', '10b28934-eabb-4404-b839-da8666aa1c26');
-insert into mylistentry_user (user_id, mylistentry_id) values ('65e4f8c1-415e-433b-a508-bb49d422eb82', 'cdb117c6-9758-48f5-a5fb-a48402154e61');
-insert into mylistentry_user (user_id, mylistentry_id) values ('9a3b8d19-e06f-446a-be03-07f3871a3c47', '0c43f1b1-8224-482c-a1fa-16f0ab1f68ec');
-insert into mylistentry_user (user_id, mylistentry_id) values ('f901d843-455d-4f02-8023-8b1b5801e664', '2881757a-59ca-45e4-84a0-c641fb012071');
-insert into mylistentry_user (user_id, mylistentry_id) values ('a3253318-8fa8-4209-9c5d-127f54b22673', '5cc6d6db-97f1-4a82-9353-a64b42e4e7e7');
-insert into mylistentry_user (user_id, mylistentry_id) values ('3d776dd4-3387-45d4-a0b9-d9068a49da72', '21e06ae7-2745-4b79-bfec-49c9409140bf');
+insert into public.role_authorities (role_id, authority_id) values ('c51dbbd6-6263-404a-93c4-668721ad2411', '9fffbc65-3dc6-478c-b924-0b9f079e2261');
+insert into public.role_authorities (role_id, authority_id) values ('558a4d28-6b63-4c57-a4f7-7ac3a793307d', '7420e40b-7dc8-49f9-9a83-a897205622f6');
+insert into public.role_authorities (role_id, authority_id) values ('558a4d28-6b63-4c57-a4f7-7ac3a793307d', '19bbf652-f5ee-4d10-9c69-ae4d09c0f66a');
 
-insert into role (id, name) values ('181f2537-db78-4aa6-a2a4-aeffd9e27ef6', 'ADMIN');
-insert into role (id, name) values ('c868a1dc-e89e-4ff1-a7a0-78f3daea0973', 'USER');
-insert into role (id, name) values ('0f19bc30-4c4c-42d1-b976-ea600f44857e', 'GUEST');
+insert into public.users (id, email, password, username) values ('b13318dd-685f-4844-af86-5d9a2b77be77', 'admin@admin.admin', '$2a$10$Df6ERvMBzNHH9PmQPUCkAuF23JyYnhxF5GZMG0v/HPzlAAMLKsNiO', 'admin');
+insert into public.users (id, email, password, username) values ('8b5351c9-1fe1-475e-bb77-3ac4c3732e6e', 'silvan.egger@mi6.com', '$2a$10$7sm3SnGbetDgRqL4Wgd17eisU8T0vEeZdEbFOnBr1izyeVTyZjJLS', 'silvan');
+insert into public.users (id, email, password, username) values ('53ce8409-638a-4de0-bc37-493f3bf9f8f8', 'markus.stein@mi6.com', '$2a$10$EBj.SuoaeUWCDohxNdHc.eS02ijIc0kLpaz.Y7/VGyKh7pKT2xnf6', 'markus');
 
-insert into users_roles (user_id, role_id) values ('e043d2c8-9a88-47c4-ab83-d11414518048', 'c868a1dc-e89e-4ff1-a7a0-78f3daea0973');
-insert into users_roles (user_id, role_id) values ('5dbfa8ee-48b1-4594-93f8-5a7bfc397b1d', 'c868a1dc-e89e-4ff1-a7a0-78f3daea0973');
-insert into users_roles (user_id, role_id) values ('abcaeec3-3448-409f-bc61-4fc988fae18c', 'c868a1dc-e89e-4ff1-a7a0-78f3daea0973');
-insert into users_roles (user_id, role_id) values ('e6fa0a48-4ca7-4e6e-b40b-76e11deb593f', 'c868a1dc-e89e-4ff1-a7a0-78f3daea0973');
-insert into users_roles (user_id, role_id) values ('888efae4-2b5c-47b9-bd55-fd3d04f8915d', 'c868a1dc-e89e-4ff1-a7a0-78f3daea0973');
-insert into users_roles (user_id, role_id) values ('65e4f8c1-415e-433b-a508-bb49d422eb82', 'c868a1dc-e89e-4ff1-a7a0-78f3daea0973');
-insert into users_roles (user_id, role_id) values ('9a3b8d19-e06f-446a-be03-07f3871a3c47', 'c868a1dc-e89e-4ff1-a7a0-78f3daea0973');
-insert into users_roles (user_id, role_id) values ('f901d843-455d-4f02-8023-8b1b5801e664', 'c868a1dc-e89e-4ff1-a7a0-78f3daea0973');
-insert into users_roles (user_id, role_id) values ('a3253318-8fa8-4209-9c5d-127f54b22673', '181f2537-db78-4aa6-a2a4-aeffd9e27ef6');
-insert into users_roles (user_id, role_id) values ('3d776dd4-3387-45d4-a0b9-d9068a49da72', '0f19bc30-4c4c-42d1-b976-ea600f44857e');
+insert into public.users_roles (user_id, role_id) values ('b13318dd-685f-4844-af86-5d9a2b77be77', 'c51dbbd6-6263-404a-93c4-668721ad2411');
+insert into public.users_roles (user_id, role_id) values ('8b5351c9-1fe1-475e-bb77-3ac4c3732e6e', '558a4d28-6b63-4c57-a4f7-7ac3a793307d');
+insert into public.users_roles (user_id, role_id) values ('53ce8409-638a-4de0-bc37-493f3bf9f8f8', '558a4d28-6b63-4c57-a4f7-7ac3a793307d');
 
-insert into authority (id, name) values ('9b336ab1-31bd-42fd-ab11-a23e6a667bc3', 'CAN_CREATE_MYLISTENTRY');
-insert into authority (id, name) values ('1a6cb1d5-380c-47eb-bfe0-80a514ebe3bc', 'CAN_READ_MYLISTENTRY');
-insert into authority (id, name) values ('cedad7c0-df6f-4ab9-99a8-d71ceefab358', 'CAN_DELETE_MYLISTENTRY');
-insert into authority (id, name) values ('0aaec7e7-8b8e-45b2-9b0b-7fd077d212c3', 'CAN_UPDATE_MYLISTENTRY');
-insert into authority (id, name) values ('01b91a5b-0979-4d51-bc31-8f98278ea710', 'ADMIN');
+insert into public.mylistentry (id, erstellungsdatum, text, titel, wichtigkeit) values ('9f743bf2-c319-49ea-a3f1-8ed886b5034e', '2021-12-08 13:33:55.167000', 'Markus Text', 'Markus Blog', 5);
+insert into public.mylistentry (id, erstellungsdatum, text, titel, wichtigkeit) values ('b2141b00-d437-4309-92b2-5e27c00ed387', '2022-03-01 13:33:55.144000', 'Ich bin ein Admin', 'Admins Blog', 2);
+insert into public.mylistentry (id, erstellungsdatum, text, titel, wichtigkeit) values ('3a1d51a9-f509-439b-b0a4-51725c990083', '2022-01-05 13:33:55.155000', 'Hallo. Ich bin Silvan.', 'Mein 1. Blog', 8);
+insert into public.mylistentry (id, erstellungsdatum, text, titel, wichtigkeit) values ('6da70499-e0e9-4c97-a0f6-bdac943b3bdb', '2021-08-06 13:33:55.163000', 'blablablabla blabla blabla', 'Hello World!', 3);
+insert into public.mylistentry (id, erstellungsdatum, text, titel, wichtigkeit) values ('b91e7f23-bacb-45fa-b5e4-332b86471f27', '2022-02-27 13:33:55.159000', 'Ich bin immer noch Silvan', 'Mein zweiter Blog', 3);
+insert into public.mylistentry (id, erstellungsdatum, text, titel, wichtigkeit) values ('fe8bfcc8-0950-45dc-a82d-d07529233a4f', '2022-03-03 13:38:03.500000', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.', 'Blogpost ADMIN', 4);
 
-insert into role_authorities (role_id, authority_id) values ('181f2537-db78-4aa6-a2a4-aeffd9e27ef6', '01b91a5b-0979-4d51-bc31-8f98278ea710');
-insert into role_authorities (role_id, authority_id) values ('c868a1dc-e89e-4ff1-a7a0-78f3daea0973', '9b336ab1-31bd-42fd-ab11-a23e6a667bc3');
-insert into role_authorities (role_id, authority_id) values ('c868a1dc-e89e-4ff1-a7a0-78f3daea0973', '1a6cb1d5-380c-47eb-bfe0-80a514ebe3bc');
-insert into role_authorities (role_id, authority_id) values ('c868a1dc-e89e-4ff1-a7a0-78f3daea0973', 'cedad7c0-df6f-4ab9-99a8-d71ceefab358');
-insert into role_authorities (role_id, authority_id) values ('c868a1dc-e89e-4ff1-a7a0-78f3daea0973', '0aaec7e7-8b8e-45b2-9b0b-7fd077d212c3');
-
-
-*/
+insert into public.mylistentry_user (user_id, mylistentry_id) values ('b13318dd-685f-4844-af86-5d9a2b77be77', 'b2141b00-d437-4309-92b2-5e27c00ed387');
+insert into public.mylistentry_user (user_id, mylistentry_id) values ('8b5351c9-1fe1-475e-bb77-3ac4c3732e6e', '3a1d51a9-f509-439b-b0a4-51725c990083');
+insert into public.mylistentry_user (user_id, mylistentry_id) values ('8b5351c9-1fe1-475e-bb77-3ac4c3732e6e', 'b91e7f23-bacb-45fa-b5e4-332b86471f27');
+insert into public.mylistentry_user (user_id, mylistentry_id) values ('8b5351c9-1fe1-475e-bb77-3ac4c3732e6e', '6da70499-e0e9-4c97-a0f6-bdac943b3bdb');
+insert into public.mylistentry_user (user_id, mylistentry_id) values ('53ce8409-638a-4de0-bc37-493f3bf9f8f8', '9f743bf2-c319-49ea-a3f1-8ed886b5034e');
+insert into public.mylistentry_user (user_id, mylistentry_id) values ('b13318dd-685f-4844-af86-5d9a2b77be77', 'fe8bfcc8-0950-45dc-a82d-d07529233a4f');
