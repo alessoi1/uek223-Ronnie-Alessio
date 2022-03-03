@@ -28,13 +28,19 @@ public class UserController {
     }
 
     @Operation(summary = "Get single User by ID")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/{id}")
     public ResponseEntity<Object> findById(@PathVariable UUID id) {
-        try {
-            return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
-        } catch (InstanceNotFoundException e) {
-            return new ResponseEntity<>(id, HttpStatus.NOT_FOUND);
+        boolean isUserAuthorized = userService.checkUserAuthorityForEntry(id);
+        if (isUserAuthorized) {
+            try {
+                return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
+            } catch (InstanceNotFoundException e) {
+                return new ResponseEntity<>(id, HttpStatus.NOT_FOUND);
+            }
+        }
+        else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
 
