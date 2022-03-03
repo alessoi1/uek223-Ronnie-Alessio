@@ -27,8 +27,8 @@ public class MyListEntryController {
 
     @Operation(summary = "Get all MyListEntries pageable")
     @GetMapping("/page/{page}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Collection<MyListEntry>> findAllPageable(@PathVariable int page) {
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<Collection<MyListEntryDTO>> findAllPageable(@PathVariable int page) {
         return new ResponseEntity<>(myListEntryService.findAllPageable(page), HttpStatus.OK);
     }
 
@@ -71,8 +71,8 @@ public class MyListEntryController {
     @Operation(summary = "Create MyListEntry")
     @PostMapping()
     @PreAuthorize("hasAnyRole('USER', 'ADMIN') && hasAnyAuthority('CAN_EDIT_MYLISTENTRY', 'ADMIN')")
-    public ResponseEntity<MyListEntryDTO> create(@Valid @RequestBody MyListEntry myListEntry) {
-        MyListEntryDTO createdEntry = myListEntryService.createMyListEntry(myListEntry);
+    public ResponseEntity<MyListEntryDTO> create(@RequestBody CreateMyListEntryDTO createMyListEntryDTO) {
+        MyListEntryDTO createdEntry = myListEntryService.createMyListEntry(createMyListEntryDTO);
         return new ResponseEntity<>(createdEntry, HttpStatus.CREATED);
     }
 

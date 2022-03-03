@@ -32,9 +32,19 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     }
 
     @Override
-    public List<MyListEntry> findAllPageable(int page) {
+    public List<MyListEntryDTO> findAllPageable(int page) {
         Pageable pageable = PageRequest.of(page, 5, Sort.by("erstellungsdatum"));
-        return myListEntryRepository.findAll(pageable).getContent();
+        List<MyListEntry> myListEntryList = myListEntryRepository.findAll(pageable).getContent();
+        return MapMyListEntryList(myListEntryList);
+    }
+
+    private List<MyListEntryDTO> MapMyListEntryList(List<MyListEntry> myListEntryList) {
+        List<MyListEntryDTO> myListEntryDTOList = new ArrayList<>();
+        for (int i = 0; i < myListEntryList.size(); i++) {
+            myListEntryDTOList.add(modelMapper.map(myListEntryList.get(i), MyListEntryDTO.class));
+            myListEntryDTOList.get(i).setUserDTO(modelMapper.map(myListEntryList.get(i).getUser(), UserDTO.class));
+        }
+        return myListEntryDTOList;
     }
 
     @Override
@@ -47,13 +57,8 @@ public class MyListEntryServiceImpl implements MyListEntryService {
 
     @Override
     public List<MyListEntryDTO> findAllDTO() {
-        List<MyListEntryDTO> myListEntryDTOList = new ArrayList<>();
         List<MyListEntry> myListEntryList = myListEntryRepository.findAll();
-        for (int i = 0; i < myListEntryList.size(); i++) {
-            myListEntryDTOList.add(modelMapper.map(myListEntryList.get(i), MyListEntryDTO.class));
-            myListEntryDTOList.get(i).setUserDTO(modelMapper.map(myListEntryList.get(i).getUser(), UserDTO.class));
-        }
-        return myListEntryDTOList;
+        return MapMyListEntryList(myListEntryList);
     }
 
     @Override
@@ -68,10 +73,12 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     }
 
     @Override
-    public MyListEntryDTO createMyListEntry(MyListEntry myListEntry) {
+    public MyListEntryDTO createMyListEntry(CreateMyListEntryDTO myListEntryDTO) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        myListEntry.setErstellungsdatum(new Date());
+
+        MyListEntry myListEntry = modelMapper.map(myListEntryDTO, MyListEntry.class);
         myListEntry.setUser(userRepository.findByUsername(username));
+        myListEntry.setErstellungsdatum(new Date());
 
         MyListEntry createdEntry = myListEntryRepository.save(myListEntry);
         log.info("Create MyListEntry with ID " + createdEntry.getId());
@@ -108,15 +115,8 @@ public class MyListEntryServiceImpl implements MyListEntryService {
     }
 
     public List<MyListEntryDTO> findAllByUser(String username) {
-        List<MyListEntryDTO> myListEntryDTOList = new ArrayList<>();
-        List<MyListEntry> myListEntrybyUser = myListEntryRepository.findAllByUser(userRepository.findByUsername(username).getId());
-
-        for (int i = 0; i < myListEntrybyUser.size(); i++) {
-            myListEntryDTOList.add(modelMapper.map(myListEntrybyUser.get(i), MyListEntryDTO.class));
-            myListEntryDTOList.get(i).setUserDTO(modelMapper.map(myListEntrybyUser.get(i).getUser(), UserDTO.class));
-        }
-
-        return myListEntryDTOList;
+        List<MyListEntry> myListEntryListByUser = myListEntryRepository.findAllByUser(userRepository.findByUsername(username).getId());
+        return MapMyListEntryList(myListEntryListByUser);
     }
 
     @Override
