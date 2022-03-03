@@ -16,13 +16,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import javax.management.InstanceAlreadyExistsException;
 import javax.management.InstanceNotFoundException;
 import javax.transaction.Transactional;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-@Service @RequiredArgsConstructor @Transactional @Log4j2
+@Service
+@RequiredArgsConstructor
+@Transactional
+@Log4j2
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
@@ -43,16 +47,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         User user = userRepository.findByUsername(username);
 
-        if (user == null){
+        if (user == null) {
             throw new UsernameNotFoundException(USERNOTFOUND);
-        }
-        else {
+        } else {
 //          Construct a valid set of Authorities (needs to implement Granted Authorities)
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
             user.getRoles().forEach(role -> {
-                authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getName()));
+                authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
                 role.getAuthorities().forEach(authority ->
-                    authorities.add(new SimpleGrantedAuthority(authority.getName())));
+                        authorities.add(new SimpleGrantedAuthority(authority.getName())));
             });
 //            return a spring internal user object that contains authorities and roles
             return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
@@ -62,7 +65,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> roles) {
         List<GrantedAuthority> authorities
                 = new ArrayList<>();
-        for (Role role: roles) {
+        for (Role role : roles) {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
             role.getAuthorities().stream()
                     .map(authority -> new SimpleGrantedAuthority(authority.getName()))
@@ -72,11 +75,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User saveUser(User user) throws InstanceAlreadyExistsException{
+    public User saveUser(User user) throws InstanceAlreadyExistsException {
         if (userRepository.findByUsername(user.getUsername()) != null) {
             throw new InstanceAlreadyExistsException("User already exists");
-        }
-        else {
+        } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             log.info("Create User with ID " + user.getId());
             return userRepository.save(user);
@@ -105,8 +107,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Optional<User> result = userRepository.findById(id);
         if (userRepository.existsById(id) && result.isPresent()) {
             return result.get();
-        }
-        else {
+        } else {
             throw new InstanceNotFoundException(USERNOTFOUND);
         }
     }
@@ -121,7 +122,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (userRepository.existsById(uuid)) {
             log.info("Overwrite User with ID " + uuid);
             User userFromDB = userRepository.findById(uuid).orElse(null);
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            if (user.getPassword() != null) {
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
+            }
 
             CopyNotNullProps copyNotNullProps = new CopyNotNullProps();
             copyNotNullProps.copyProperties(userFromDB, user);
@@ -129,8 +132,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             userRepository.saveAndFlush(userFromDB);
 
             return modelMapper.map(userFromDB, UserUpdateDTO.class);
-        }
-        else {
+        } else {
             throw new InstanceNotFoundException(USERNOTFOUND);
         }
     }
@@ -147,7 +149,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         try {
             return currentUser.getUsername().equals(userRepository.findById(uuid).orElseThrow(InstanceNotFoundException::new).getUsername()) ||
                     currentUser.getRoles().contains(roleRepository.findByName("ADMIN"));
-        } catch (InstanceNotFoundException e) {
+        } catch (Exception e) {
             return false;
         }
     }
