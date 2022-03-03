@@ -27,8 +27,8 @@ public class MyListEntryController {
 
     @Operation(summary = "Get all MyListEntries pageable")
     @GetMapping("/page/{page}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Collection<MyListEntry>> findAllPageable(@PathVariable int page) {
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<Collection<MyListEntryDTO>> findAllPageable(@PathVariable int page) {
         return new ResponseEntity<>(myListEntryService.findAllPageable(page), HttpStatus.OK);
     }
 

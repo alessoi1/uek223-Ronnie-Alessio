@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface MyListEntryService {
     List<MyListEntry> findAll();
-    List<MyListEntry> findAllPageable(int page);
+    List<MyListEntryDTO> findAllPageable(int page);
     MyListEntryDTO findDTOById(UUID id) throws InstanceNotFoundException;
     List<MyListEntryDTO> findAllDTO();
     MyListEntry findById(UUID id) throws InstanceNotFoundException;
