@@ -133,7 +133,7 @@ public class MyListEntryServiceImpl implements MyListEntryService {
         try {
             return user.getUsername().equals(findById(uuid).getUser().getUsername()) ||
                     user.getRoles().contains(roleRepository.findByName("ADMIN"));
-        } catch (InstanceNotFoundException e) {
+        } catch (Exception e) {
             return false;
         }
     }
