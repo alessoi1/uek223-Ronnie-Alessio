@@ -20,14 +20,16 @@ public class UserController {
     //    ADD YOUR ENDPOINT MAPPINGS HERE
     private final UserService userService;
 
-    @Operation(summary = "Get all Users")
+    @Operation(summary = "Der Endpoint nimmt alle User." +
+            " Dieser Endpoint kann nur ein Admin benutzen.")
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping()
     public ResponseEntity<Collection<User>> findAll() {
         return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
 
-    @Operation(summary = "Get single User by ID")
+    @Operation(summary = "Der Endpoint nimmt einen User." +
+            " Dieser Endpoint kann nur ein Admin benutzen.")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/{id}")
     public ResponseEntity<Object> findById(@PathVariable UUID id) {
@@ -44,7 +46,8 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "Create new User (Register)")
+    @Operation(summary = "Dieser Endpoint erstellt einen neuen User." +
+            " Jeder kann einen neuen User erstellen.")
     @PostMapping("/register")
     public ResponseEntity<User> register(@Valid @RequestBody User user) {
         try {
@@ -54,7 +57,10 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "Delete User by ID")
+    @Operation(summary = "Der Endpoint löscht User." +
+            " Jeder User kann sein eigenes Konto löschen aber nicht ein anders." +
+            " Der Admin kann alle Konten löschen.")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<UUID> delete(@PathVariable UUID id) {
         boolean isUserAuthorized = userService.checkUserAuthorityForEntry(id);
@@ -70,7 +76,10 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "Update User by ID")
+    @Operation(summary = "Dieser Endpoint bearbeitet User." +
+            "Jeder user kann sein eigenes Konto bearbeiten aber keine andere." +
+            " Der Admin kann alle Konten bearbeiten.")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PutMapping("/{id}")
     public ResponseEntity<UserUpdateDTO> update(@Valid @RequestBody UserUpdateDTO user, @PathVariable UUID id) {
         boolean isUserAuthorized = userService.checkUserAuthorityForEntry(id);

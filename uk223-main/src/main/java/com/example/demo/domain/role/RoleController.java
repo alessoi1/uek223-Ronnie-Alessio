@@ -18,14 +18,16 @@ public class RoleController {
 
     private final RoleService roleService;
 
-    @Operation(summary = "Get all Roles")
+    @Operation(summary = "Der Endpoint zeigt alle Rollen an." +
+            " Nur ein Admin kann die Rollen anschauen.")
     @GetMapping()
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Collection<Role>> findAll() {
         return new ResponseEntity<>(roleService.findAll(), HttpStatus.OK);
     }
 
-    @Operation(summary = "Get single Role by ID")
+    @Operation(summary = "Der Endpoint zeigt eine Rolle an." +
+            " Nur ein Admin kann die Rolle anschauen.")
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> findById(@PathVariable UUID id) {
@@ -36,14 +38,16 @@ public class RoleController {
         }
     }
 
-    @Operation(summary = "Create new Role")
+    @Operation(summary = "Der Endpoint erstellt eine Rolle." +
+            " Nur ein Admin kann eine neue Rolle erstellen.")
     @PostMapping()
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Role> create(@RequestBody Role role) {
         return new ResponseEntity<>(roleService.createRole(role), HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Delete Role by ID")
+    @Operation(summary = "Der Endpoint löscht eine Rolle." +
+            " Nur ein Admin kann eine Rolle löschen.")
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> delete(@PathVariable UUID id) {
@@ -55,7 +59,8 @@ public class RoleController {
         return new ResponseEntity<>(id + " deleted", HttpStatus.OK);
     }
 
-    @Operation(summary = "Update Role by ID")
+    @Operation(summary = "Der Endpoint bearbeitet eine Rolle." +
+            " Nur ein Admin kann eine Rolle bearbeiten.")
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Role> update(@PathVariable UUID id, @Valid @RequestBody Role role) {
