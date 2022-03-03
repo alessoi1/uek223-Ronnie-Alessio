@@ -1,0 +1,1015 @@
+{
+	"info": {
+		"_postman_id": "e3ef296d-ee5d-409c-8d75-026c71e8a8ff",
+		"name": "UEK223",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "MyListEntry",
+			"item": [
+				{
+					"name": "GetAll_MyListEntry",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"ID Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].id).is.not.undefined;\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Titel Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].titel).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].titel.length).to.be.above(0)\r",
+									"        pm.expect(jsonData[i].titel.length).to.be.below(51)\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Text Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].text).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].text.length).to.be.above(0)\r",
+									"        pm.expect(jsonData[i].text.length).to.be.below(51)\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Erstellungsdatum Validation\", function () {\r",
+									"    var now = new Date().getTime();\r",
+									"\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].erstellungsdatum).is.not.undefined;\r",
+									"        date = jsonData[i].erstellungsdatum;\r",
+									"        formatDate = new Date(date).getTime();\r",
+									"        pm.expect(formatDate).to.be.below(now);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Wichtigkeit Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].wichtigkeit).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].wichtigkeit).to.be.below(11);\r",
+									"        pm.expect(jsonData[i].wichtigkeit).to.be.above(1);\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Default-URL-MyListEntry}}",
+							"host": [
+								"{{Default-URL-MyListEntry}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll_MyListEntry_Pageable",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Page length is 5 or less\", function () {\r",
+									"    pm.expect(jsonData.length).to.be.below(6);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"DTO Titel Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].titel).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].titel.length).to.be.above(0);\r",
+									"        pm.expect(jsonData[i].titel.length).to.be.below(51);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"DTO Text Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].text).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].text.length).to.be.above(0);\r",
+									"        pm.expect(jsonData[i].text.length).to.be.below(51);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"DTO Erstellungsdatum Validation\", function () {\r",
+									"    var now = new Date().getTime();\r",
+									"\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].erstellungsdatum).is.not.undefined;\r",
+									"        date = jsonData[i].erstellungsdatum;\r",
+									"        formatDate = new Date(date).getTime();\r",
+									"        pm.expect(formatDate).to.be.below(now);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"DTO Wichtigkeit Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].wichtigkeit).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].wichtigkeit).to.be.above(0);\r",
+									"        pm.expect(jsonData[i].wichtigkeit).to.be.below(11);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"UserDTO Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].userDTO).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].userDTO.username).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].userDTO.email).is.not.undefined;\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Default-URL-MyListEntry}}/page/0",
+							"host": [
+								"{{Default-URL-MyListEntry}}"
+							],
+							"path": [
+								"page",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll_MyListEntry_DTO",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"DTO Titel Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].titel).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].titel.length).to.be.above(0);\r",
+									"        pm.expect(jsonData[i].titel.length).to.be.below(51);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"DTO Text Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].text).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].text.length).to.be.above(0);\r",
+									"        pm.expect(jsonData[i].text.length).to.be.below(51);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"DTO Erstellungsdatum Validation\", function () {\r",
+									"    var now = new Date().getTime();\r",
+									"\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].erstellungsdatum).is.not.undefined;\r",
+									"        date = jsonData[i].erstellungsdatum;\r",
+									"        formatDate = new Date(date).getTime();\r",
+									"        pm.expect(formatDate).to.be.below(now);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"DTO Wichtigkeit Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].wichtigkeit).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].wichtigkeit).to.be.above(0);\r",
+									"        pm.expect(jsonData[i].wichtigkeit).to.be.below(11);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"UserDTO Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].userDTO).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].userDTO.username).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].userDTO.email).is.not.undefined;\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Default-URL-MyListEntry}}/DTO",
+							"host": [
+								"{{Default-URL-MyListEntry}}"
+							],
+							"path": [
+								"DTO"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById_MyListEntry_DTO",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Titel Validation\", function () {\r",
+									"    pm.expect(jsonData.titel).is.not.undefined;\r",
+									"    pm.expect(jsonData.titel.length).to.be.above(0);\r",
+									"    pm.expect(jsonData.titel.length).to.be.below(51);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Text Validation\", function () {\r",
+									"    pm.expect(jsonData.text).is.not.undefined;\r",
+									"    pm.expect(jsonData.text.length).to.be.above(0);\r",
+									"    pm.expect(jsonData.text.length).to.be.below(51);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Erstellungsdatum Validation\", function () {\r",
+									"    var now = new Date().getTime();\r",
+									"    var date = jsonData.erstellungsdatum;\r",
+									"    var formatDate = new Date(date).getTime();\r",
+									"\r",
+									"    pm.expect(jsonData.erstellungsdatum).is.not.undefined;\r",
+									"    pm.expect(formatDate).to.be.below(now);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Wichtigkeit Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].wichtigkeit).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].wichtigkeit).to.be.above(0);\r",
+									"        pm.expect(jsonData[i].wichtigkeit).to.be.below(11);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"UserDTO Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].userDTO).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].userDTO.username).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].userDTO.email).is.not.undefined;\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Default-URL-MyListEntry}}/DTO/6da70499-e0e9-4c97-a0f6-bdac943b3bdb",
+							"host": [
+								"{{Default-URL-MyListEntry}}"
+							],
+							"path": [
+								"DTO",
+								"6da70499-e0e9-4c97-a0f6-bdac943b3bdb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById_MyListEntry",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"ID Validation\", function () {\r",
+									"    pm.expect(jsonData.id).is.not.undefined;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Titel Validation\", function () {\r",
+									"    pm.expect(jsonData.titel).is.not.undefined;\r",
+									"    pm.expect(jsonData.titel.length).to.be.above(0)\r",
+									"    pm.expect(jsonData.titel.length).to.be.below(51)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Text Validation\", function () {\r",
+									"        pm.expect(jsonData.text).is.not.undefined;\r",
+									"        pm.expect(jsonData.text.length).to.be.above(0)\r",
+									"        pm.expect(jsonData.text.length).to.be.below(51)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Erstellungsdatum Validation\", function () {\r",
+									"    var now = new Date().getTime();\r",
+									"    var date = jsonData.erstellungsdatum;\r",
+									"    formatDate = new Date(date).getTime();\r",
+									"\r",
+									"    pm.expect(jsonData.erstellungsdatum).is.not.undefined;\r",
+									"    pm.expect(formatDate).to.be.below(now);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Wichtigkeit Validation\", function () {\r",
+									"        pm.expect(jsonData.wichtigkeit).is.not.undefined;\r",
+									"        pm.expect(jsonData.wichtigkeit).to.be.below(11);\r",
+									"        pm.expect(jsonData.wichtigkeit).to.be.above(1);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Default-URL-MyListEntry}}/fe8bfcc8-0950-45dc-a82d-d07529233a4f",
+							"host": [
+								"{{Default-URL-MyListEntry}}"
+							],
+							"path": [
+								"fe8bfcc8-0950-45dc-a82d-d07529233a4f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllByUsername_MyListEntry",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"DTO Titel Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].titel).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].titel.length).to.be.above(0);\r",
+									"        pm.expect(jsonData[i].titel.length).to.be.below(51);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"DTO Text Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].text).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].text.length).to.be.above(0);\r",
+									"        pm.expect(jsonData[i].text.length).to.be.below(51);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"DTO Erstellungsdatum Validation\", function () {\r",
+									"    var now = new Date().getTime();\r",
+									"\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].erstellungsdatum).is.not.undefined;\r",
+									"        date = jsonData[i].erstellungsdatum;\r",
+									"        formatDate = new Date(date).getTime();\r",
+									"        pm.expect(formatDate).to.be.below(now);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"DTO Wichtigkeit Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].wichtigkeit).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].wichtigkeit).to.be.above(0);\r",
+									"        pm.expect(jsonData[i].wichtigkeit).to.be.below(11);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"UserDTO Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].userDTO).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].userDTO.username).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].userDTO.email).is.not.undefined;\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if only 1 User\", function () {\r",
+									"    var username = jsonData[0].userDTO.username;\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].userDTO.username).eq(username);\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Default-URL-MyListEntry}}/username/{{Admin_Username}}",
+							"host": [
+								"{{Default-URL-MyListEntry}}"
+							],
+							"path": [
+								"username",
+								"{{Admin_Username}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create_MyListEntry",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"DTO Titel Validation\", function () {\r",
+									"    pm.expect(jsonData.titel).is.not.undefined;\r",
+									"    pm.expect(jsonData.titel.length).to.be.above(0);\r",
+									"    pm.expect(jsonData.titel.length).to.be.below(51);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"DTO Text Validation\", function () {\r",
+									"    pm.expect(jsonData.text).is.not.undefined;\r",
+									"    pm.expect(jsonData.text.length).to.be.above(0);\r",
+									"    pm.expect(jsonData.text.length).to.be.below(51);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Erstellungsdatum Validation\", function () {\r",
+									"    var now = new Date().getTime();\r",
+									"    var date = jsonData.erstellungsdatum;\r",
+									"    var formatDate = new Date(date).getTime();\r",
+									"    var delay = 100;\r",
+									"\r",
+									"    pm.expect(jsonData.erstellungsdatum).is.not.undefined;\r",
+									"    pm.expect(formatDate).to.be.below(now);\r",
+									"    pm.expect(formatDate).to.be.above(now - delay)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Wichtigkeit Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].wichtigkeit).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].wichtigkeit).to.be.above(0);\r",
+									"        pm.expect(jsonData[i].wichtigkeit).to.be.below(11);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"UserDTO Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].userDTO).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].userDTO.username).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].userDTO.username).eq(\"admin\");\r",
+									"        pm.expect(jsonData[i].userDTO.email).is.not.undefined;\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titel\": \"Test\",\r\n    \"text\": \"POST TEST\",\r\n    \"wichtigkeit\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Default-URL-MyListEntry}}",
+							"host": [
+								"{{Default-URL-MyListEntry}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update_MyListEntry",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"DTO Titel Validation\", function () {\r",
+									"    pm.expect(jsonData.titel).is.not.undefined;\r",
+									"    pm.expect(jsonData.titel.length).to.be.above(0);\r",
+									"    pm.expect(jsonData.titel.length).to.be.below(51);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"DTO Text Validation\", function () {\r",
+									"    pm.expect(jsonData.text).is.not.undefined;\r",
+									"    pm.expect(jsonData.text.length).to.be.above(0);\r",
+									"    pm.expect(jsonData.text.length).to.be.below(51);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Erstellungsdatum Validation\", function () {\r",
+									"    var now = new Date().getTime();\r",
+									"    var date = jsonData.erstellungsdatum;\r",
+									"    var formatDate = new Date(date).getTime();\r",
+									"\r",
+									"    pm.expect(jsonData.erstellungsdatum).is.not.undefined;\r",
+									"    pm.expect(formatDate).to.be.below(now);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Wichtigkeit Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].wichtigkeit).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].wichtigkeit).to.be.above(0);\r",
+									"        pm.expect(jsonData[i].wichtigkeit).to.be.below(11);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"UserDTO Validation\", function () {\r",
+									"    for (i = 0; i < jsonData.length; i++) {\r",
+									"        pm.expect(jsonData[i].userDTO).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].userDTO.username).is.not.undefined;\r",
+									"        pm.expect(jsonData[i].userDTO.username).eq(\"admin\");\r",
+									"        pm.expect(jsonData[i].userDTO.email).is.not.undefined;\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"wichtigkeit\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Default-URL-MyListEntry}}/fe8bfcc8-0950-45dc-a82d-d07529233a4f",
+							"host": [
+								"{{Default-URL-MyListEntry}}"
+							],
+							"path": [
+								"fe8bfcc8-0950-45dc-a82d-d07529233a4f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update_MyListEntry Forbidden",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "Passwort",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "markus",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"wichtigkeit\": 9\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Default-URL-MyListEntry}}/b91e7f23-bacb-45fa-b5e4-332b86471f27",
+							"host": [
+								"{{Default-URL-MyListEntry}}"
+							],
+							"path": [
+								"b91e7f23-bacb-45fa-b5e4-332b86471f27"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete_MyListEntry",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{Default-URL-MyListEntry}}/fabcdec8-0950-45dc-a82d-d07529233a4f",
+							"host": [
+								"{{Default-URL-MyListEntry}}"
+							],
+							"path": [
+								"fabcdec8-0950-45dc-a82d-d07529233a4f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "GetAll_User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Default-URL-User}}",
+							"host": [
+								"{{Default-URL-User}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById_User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Default-URL-User}}/8b5351c9-1fe1-475e-bb77-3ac4c3732e6e",
+							"host": [
+								"{{Default-URL-User}}"
+							],
+							"path": [
+								"8b5351c9-1fe1-475e-bb77-3ac4c3732e6e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create_User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"TEMP\",\r\n  \"email\": \"temp@gmail.com\",\r\n  \"password\": \"TEMP\",\r\n  \"roles\": [\r\n    {\r\n      \"id\": \"558a4d28-6b63-4c57-a4f7-7ac3a793307d\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Default-URL-User}}/register",
+							"host": [
+								"{{Default-URL-User}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update_User",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "Passwort",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "markus",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"markus1\",\r\n  \"password\": \"Passwort123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Default-URL-User}}/53ce8409-638a-4de0-bc37-493f3bf9f8f8",
+							"host": [
+								"{{Default-URL-User}}"
+							],
+							"path": [
+								"53ce8409-638a-4de0-bc37-493f3bf9f8f8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete_User",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "Passwort",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "markus",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"markus1\",\r\n  \"password\": \"Passwort123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Default-URL-User}}/53ce8409-638a-4de0-bc37-493f3bf9f8f8",
+							"host": [
+								"{{Default-URL-User}}"
+							],
+							"path": [
+								"53ce8409-638a-4de0-bc37-493f3bf9f8f8"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Role",
+			"item": [
+				{
+					"name": "GetAll_Role",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Default-URL-Role}}",
+							"host": [
+								"{{Default-URL-Role}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById_Role",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Default-URL-Role}}/558a4d28-6b63-4c57-a4f7-7ac3a793307d",
+							"host": [
+								"{{Default-URL-Role}}"
+							],
+							"path": [
+								"558a4d28-6b63-4c57-a4f7-7ac3a793307d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create_Role",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"New Role\",\r\n  \"authorities\": [\r\n    {\r\n      \"id\": \"7420e40b-7dc8-49f9-9a83-a897205622f6\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Default-URL-Role}}",
+							"host": [
+								"{{Default-URL-Role}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update_Role",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"USER_TEST\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Default-URL-Role}}/558a4d28-6b63-4c57-a4f7-7ac3a793307d",
+							"host": [
+								"{{Default-URL-Role}}"
+							],
+							"path": [
+								"558a4d28-6b63-4c57-a4f7-7ac3a793307d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete_Role",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"markus1\",\r\n  \"password\": \"Passwort123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Default-URL-Role}}/558a4d28-6b63-4c57-a4f7-7ac3a793307d",
+							"host": [
+								"{{Default-URL-Role}}"
+							],
+							"path": [
+								"558a4d28-6b63-4c57-a4f7-7ac3a793307d"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "Admin123",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "admin",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Default-URL-MyListEntry",
+			"value": "http://localhost:8080/api/myListEntry",
+			"type": "string"
+		},
+		{
+			"key": "MyListEntry-UUID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "Admin_Username",
+			"value": "admin",
+			"type": "string"
+		},
+		{
+			"key": "Default-URL-User",
+			"value": "http://localhost:8080/api/user",
+			"type": "string"
+		},
+		{
+			"key": "Default-URL-Role",
+			"value": "http://localhost:8080/api/role",
+			"type": "string"
+		}
+	]
+}

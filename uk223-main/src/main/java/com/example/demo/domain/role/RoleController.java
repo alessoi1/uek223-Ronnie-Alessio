@@ -53,8 +53,10 @@ public class RoleController {
     public ResponseEntity<String> delete(@PathVariable UUID id) {
         try {
             roleService.deleteRole(id);
-        } catch (InstanceNotFoundException | SQLException infe) {
+        } catch (InstanceNotFoundException infe) {
             return new ResponseEntity<>(infe.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (SQLException sqle) {
+            return new ResponseEntity<>(sqle.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(id + " deleted", HttpStatus.OK);
     }
